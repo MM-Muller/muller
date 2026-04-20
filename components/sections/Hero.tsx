@@ -108,9 +108,9 @@ export default function Hero() {
           animate="visible"
           custom={0.85}
         >
-          Matheus, Backend Software Engineer &amp; Tech Lead. Uma celebração de
-          design inteligente, automação sistêmica e engenharia de alta
-          performance. Bem-vindo ao meu espaço.
+          Matheus, Backend Software Engineer &amp; Tech Lead. A celebration of
+          intelligent design, systemic automation, and high-performance
+          software engineering. Welcome to my space.
         </motion.p>
       </div>
 

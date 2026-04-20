@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
-import { Playfair_Display } from "next/font/google";
+import { Cormorant_Garamond } from "next/font/google";
 import LenisProvider from "@/components/providers/LenisProvider";
 import "./globals.css";
 
@@ -8,14 +8,14 @@ import "./globals.css";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-  weight: ["300", "400"],
+  weight: ["300", "400", "500"],
   display: "swap",
 });
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "600"],
   style: ["normal", "italic"],
   display: "swap",
 });
@@ -24,7 +24,7 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "Muller & Co. Engineer",
   description:
-    "Matheus — Backend Software Engineer & Tech Lead. Uma celebração de design inteligente, automação sistêmica e engenharia de software de alta performance.",
+    "Matheus — Backend Software Engineer & Tech Lead. A celebration of intelligent design, systemic automation, and high-performance software engineering.",
   openGraph: {
     title: "Muller & Co. Engineer",
     description: "Backend Software Engineer & Tech Lead.",
@@ -38,8 +38,8 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
-      lang="pt-BR"
-      className={`${geistSans.variable} ${playfair.variable}`}
+      lang="en"
+      className={`${geistSans.variable} ${cormorant.variable}`}
       suppressHydrationWarning
     >
       <body>

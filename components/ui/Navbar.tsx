@@ -42,8 +42,8 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
   return (
     <a
       href={href}
-      className="text-[10.5px] font-sans font-normal uppercase
-                 tracking-[0.16em] text-white/90 whitespace-nowrap
+      className="font-sans text-[11px] font-normal uppercase
+                 tracking-[0.15em] text-white/85 whitespace-nowrap
                  transition-opacity duration-300 hover:opacity-40"
     >
       {children}
@@ -71,24 +71,24 @@ export default function Navbar() {
         variants={NAV_VARIANTS}
         initial="hidden"
         animate="visible"
-        aria-label="Header principal"
+        aria-label="Main header"
       >
         {/* ── Links Esquerda — em linha ── */}
         <nav
           className="flex flex-row items-center gap-12 pt-8"
-          aria-label="Navegação esquerda"
+          aria-label="Left navigation"
         >
-          <NavLink href="#sobre">Sobre Mim</NavLink>
-          <NavLink href="#contato">Contato</NavLink>
+          <NavLink href="#about">About</NavLink>
+          <NavLink href="#contact">Contact</NavLink>
         </nav>
 
         {/* ── Logo Central — absolutamente centrada na tela ── */}
         <a
           href="/"
-          aria-label="Müller — Página inicial"
+          aria-label="Müller — Home"
           className="absolute left-1/2 top-4 -translate-x-1/2
-                     font-display text-[7vw] font-normal leading-none
-                     tracking-[0.04em] text-white uppercase select-none
+                     font-display text-[7vw] font-semibold leading-none
+                     tracking-[0.06em] text-white uppercase select-none
                      transition-opacity duration-500 hover:opacity-60"
         >
           Müller
@@ -97,9 +97,9 @@ export default function Navbar() {
         {/* ── Links Direita — em linha ── */}
         <nav
           className="flex flex-row items-center gap-12 pt-8"
-          aria-label="Navegação direita"
+          aria-label="Right navigation"
         >
-          <NavLink href="#automacoes">Automações</NavLink>
+          <NavLink href="#automations">Automations</NavLink>
           <NavLink href="#sites">Sites</NavLink>
         </nav>
       </motion.header>
@@ -113,11 +113,11 @@ export default function Navbar() {
         variants={NAV_VARIANTS}
         initial="hidden"
         animate="visible"
-        aria-label="Header mobile"
+        aria-label="Mobile header"
       >
         <a
           href="/"
-          aria-label="Müller — Página inicial"
+          aria-label="Müller — Home"
           className="font-display text-[2rem] font-normal leading-none
                      tracking-[0.05em] text-white uppercase select-none
                      transition-opacity duration-300 hover:opacity-60"
@@ -128,7 +128,7 @@ export default function Navbar() {
         {/* Hambúrguer — 3 traços → ✕ */}
         <button
           onClick={() => setMenuOpen((v) => !v)}
-          aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}
           className="flex flex-col justify-center gap-[5px] p-1"
         >
@@ -157,13 +157,13 @@ export default function Navbar() {
             initial="hidden"
             animate="visible"
             exit="exit"
-            aria-label="Menu mobile"
+            aria-label="Mobile menu"
           >
             {[
-              { href: "#sobre", label: "Sobre Mim" },
-              { href: "#automacoes", label: "Automações" },
-              { href: "#sites", label: "Sites" },
-              { href: "#contato", label: "Contato" },
+              { href: "#about",       label: "About" },
+              { href: "#automations", label: "Automations" },
+              { href: "#sites",       label: "Sites" },
+              { href: "#contact",     label: "Contact" },
             ].map(({ href, label }) => (
               <a
                 key={href}

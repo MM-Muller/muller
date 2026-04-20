@@ -8,7 +8,7 @@
   --color-accent-green: #5A5E49;
 
   /* ─── Typography Families ─── */
-  --font-display: var(--font-playfair), "Georgia", serif;
+  --font-display: var(--font-cormorant), "Georgia", serif;
   --font-sans:    var(--font-geist-sans), system-ui, sans-serif;
 
   /* ─── Easing ─── */
