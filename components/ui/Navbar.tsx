@@ -1,0 +1,184 @@
+"use client";
+
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+/* ─── Variants ────────────────────────────────────────── */
+const NAV_VARIANTS = {
+  hidden: { opacity: 0, y: -8 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.9,
+      delay: 0.15,
+      ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
+    },
+  },
+};
+
+const MOBILE_MENU_VARIANTS = {
+  hidden: { opacity: 0, y: -12 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.35,
+      ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
+    },
+  },
+  exit: {
+    opacity: 0,
+    y: -8,
+    transition: {
+      duration: 0.25,
+      ease: [0.76, 0, 0.24, 1] as [number, number, number, number],
+    },
+  },
+};
+
+/* ─── Nav Link ───────────────────────────────────────── */
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <a
+      href={href}
+      className="text-[10.5px] font-sans font-normal uppercase
+                 tracking-[0.16em] text-white/90 whitespace-nowrap
+                 transition-opacity duration-300 hover:opacity-40"
+    >
+      {children}
+    </a>
+  );
+}
+
+/* ─── Navbar ─────────────────────────────────────────── */
+export default function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  return (
+    <>
+      {/* ─────────────────────────────────────────────────────
+          DESKTOP HEADER
+          Estrutura: flex row com 3 zonas
+          ─ Esquerda: links em linha (flex-row)
+          ─ Centro:   logo absoluta no eixo da tela
+          ─ Direita:  links em linha (flex-row)
+          ───────────────────────────────────────────────────── */}
+      <motion.header
+        className="absolute inset-x-0 top-0 z-50 hidden w-full
+                   items-start justify-between pt-8 md:flex"
+        style={{ paddingLeft: "2vw", paddingRight: "2vw", paddingTop: "1vw" }}
+        variants={NAV_VARIANTS}
+        initial="hidden"
+        animate="visible"
+        aria-label="Header principal"
+      >
+        {/* ── Links Esquerda — em linha ── */}
+        <nav
+          className="flex flex-row items-center gap-12 pt-8"
+          aria-label="Navegação esquerda"
+        >
+          <NavLink href="#sobre">Sobre Mim</NavLink>
+          <NavLink href="#contato">Contato</NavLink>
+        </nav>
+
+        {/* ── Logo Central — absolutamente centrada na tela ── */}
+        <a
+          href="/"
+          aria-label="Müller — Página inicial"
+          className="absolute left-1/2 top-4 -translate-x-1/2
+                     font-display text-[7vw] font-normal leading-none
+                     tracking-[0.04em] text-white uppercase select-none
+                     transition-opacity duration-500 hover:opacity-60"
+        >
+          Müller
+        </a>
+
+        {/* ── Links Direita — em linha ── */}
+        <nav
+          className="flex flex-row items-center gap-12 pt-8"
+          aria-label="Navegação direita"
+        >
+          <NavLink href="#automacoes">Automações</NavLink>
+          <NavLink href="#sites">Sites</NavLink>
+        </nav>
+      </motion.header>
+
+      {/* ─────────────────────────────────────────────────────
+          MOBILE HEADER — Logo + Hambúrguer
+          ───────────────────────────────────────────────── */}
+      <motion.header
+        className="absolute inset-x-0 top-0 z-50 flex w-full
+                   items-center justify-between px-6 pt-6 md:hidden"
+        variants={NAV_VARIANTS}
+        initial="hidden"
+        animate="visible"
+        aria-label="Header mobile"
+      >
+        <a
+          href="/"
+          aria-label="Müller — Página inicial"
+          className="font-display text-[2rem] font-normal leading-none
+                     tracking-[0.05em] text-white uppercase select-none
+                     transition-opacity duration-300 hover:opacity-60"
+        >
+          Müller
+        </a>
+
+        {/* Hambúrguer — 3 traços → ✕ */}
+        <button
+          onClick={() => setMenuOpen((v) => !v)}
+          aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
+          aria-expanded={menuOpen}
+          className="flex flex-col justify-center gap-[5px] p-1"
+        >
+          <span
+            className={`block h-px w-6 bg-white transition-all duration-300
+              ${menuOpen ? "translate-y-[7px] rotate-45" : ""}`}
+          />
+          <span
+            className={`block h-px w-6 bg-white transition-all duration-300
+              ${menuOpen ? "opacity-0 scale-x-0" : ""}`}
+          />
+          <span
+            className={`block h-px w-6 bg-white transition-all duration-300
+              ${menuOpen ? "-translate-y-[7px] -rotate-45" : ""}`}
+          />
+        </button>
+      </motion.header>
+
+      {/* ── Mobile Menu Dropdown ── */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.nav
+            className="absolute inset-x-0 top-[72px] z-40 flex flex-col gap-6
+                       bg-black/85 px-6 py-8 backdrop-blur-sm md:hidden"
+            variants={MOBILE_MENU_VARIANTS}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            aria-label="Menu mobile"
+          >
+            {[
+              { href: "#sobre", label: "Sobre Mim" },
+              { href: "#automacoes", label: "Automações" },
+              { href: "#sites", label: "Sites" },
+              { href: "#contato", label: "Contato" },
+            ].map(({ href, label }) => (
+              <a
+                key={href}
+                href={href}
+                onClick={() => setMenuOpen(false)}
+                className="text-[13px] font-sans font-normal uppercase
+                           tracking-[0.18em] text-white/90
+                           transition-opacity duration-200 hover:opacity-50"
+              >
+                {label}
+              </a>
+            ))}
+          </motion.nav>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}

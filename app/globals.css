@@ -1,26 +1,70 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* ─── Brand Palette ─── */
+  --color-bg-primary:   #EBEAE5;
+  --color-text-primary: #1A1A1A;
+  --color-accent-brown: #4A3C31;
+  --color-accent-green: #5A5E49;
+
+  /* ─── Typography Families ─── */
+  --font-display: var(--font-playfair), "Georgia", serif;
+  --font-sans:    var(--font-geist-sans), system-ui, sans-serif;
+
+  /* ─── Easing ─── */
+  --ease-cinematic: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-smooth:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ─── Reset ─── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  height: 100%;
+  /* Lenis overrides scroll behaviour */
+  scroll-behavior: auto;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100%;
+  background-color: #EBEAE5;
+  color: #1A1A1A;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* ─── Lenis Smooth Scroll ─── */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ─── Selection ─── */
+::selection {
+  background-color: #4A3C31;
+  color: #EBEAE5;
+}
+
+/* ─── Cursor: system default ─── */
+* {
+  cursor: auto;
 }
