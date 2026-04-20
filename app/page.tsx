@@ -5,6 +5,7 @@
  * This file stays as a pure Server Component (no "use client").
  */
 import Hero from "@/components/sections/Hero";
+import Footer from "@/components/sections/Footer";
 
 export default function Home() {
   return (
@@ -15,8 +16,8 @@ export default function Home() {
         <AboutGrid />
         <Expertise />
         <SelectedWork />
-        <Footer />
       */}
+      <Footer />
     </main>
   );
 }
