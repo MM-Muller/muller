@@ -42,16 +42,16 @@ export default function Footer() {
         className="flex flex-col justify-between"
         style={{ paddingLeft: "8vw", paddingRight: "8vw", paddingTop: "6vh", paddingBottom: "6vh", minHeight: "42vh" }}
       >
-        {/* ── Bloco superior: 2 colunas ── */}
+        {/* ── Bloco superior: 3 colunas ── */}
         <motion.div
-          className="grid grid-cols-2 gap-8"
+          className="grid grid-cols-1 gap-12 md:grid-cols-3"
           variants={FADE}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-40px" }}
           custom={0}
         >
-          {/* Esquerda — Follow */}
+          {/* Col 1 — Follow */}
           <div className="flex flex-col gap-4">
             <p className="font-sans text-xs uppercase tracking-widest text-[#1A1A1A]/50">
               Follow
@@ -63,10 +63,35 @@ export default function Footer() {
               <SocialLink href="https://github.com/MM-Muller">
                 GitHub
               </SocialLink>
+              <SocialLink href="https://instagram.com">
+                Instagram
+              </SocialLink>
             </div>
           </div>
 
-          {/* Direita — Get in touch */}
+          {/* Col 2 — Services */}
+          <div className="flex flex-col gap-4">
+            <p className="font-sans text-xs uppercase tracking-widest text-[#1A1A1A]/50">
+              Services
+            </p>
+            <div className="flex flex-col gap-2">
+              {[
+                "RPA Automations",
+                "SaaS Development",
+                "Premium Websites",
+                "Tech & Business Advisory",
+              ].map((service) => (
+                <span
+                  key={service}
+                  className="font-sans text-sm text-[#1A1A1A]/70"
+                >
+                  {service}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Col 3 — Get in touch */}
           <div className="flex flex-col gap-4">
             <p className="font-sans text-xs uppercase tracking-widest text-[#1A1A1A]/50">
               Get in touch
@@ -83,28 +108,36 @@ export default function Footer() {
           </div>
         </motion.div>
 
-        {/* ── Bloco inferior: monograma + copyright ── */}
+        {/* ── Bloco inferior: mesmo grid de 3 colunas ── */}
         <motion.div
-          className="flex items-end justify-between"
+          className="grid grid-cols-1 gap-12 md:grid-cols-3"
           variants={FADE}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-40px" }}
           custom={0.1}
         >
-          {/* Monograma — Cormorant */}
-          <a
-            href="/"
-            aria-label="Müller — Home"
-            className="font-display text-3xl font-normal leading-none
-                       tracking-[0.05em] text-[#1A1A1A] uppercase select-none
-                       transition-opacity duration-300 hover:opacity-50"
-          >
-            M &amp; Co.
-          </a>
+          {/* Col 1 — Logo (abaixo de Follow) */}
+          <div className="flex items-end">
+            <a
+              href="/"
+              aria-label="Müller — Home"
+              className="transition-opacity duration-300 hover:opacity-50"
+            >
+              <img
+                src="/logo.png"
+                alt="Muller logo"
+                className="w-40 select-none"
+                style={{ transform: "translateX(-8px)" }}
+              />
+            </a>
+          </div>
 
-          {/* Copyright */}
-          <div className="flex flex-col items-end gap-1 text-right">
+          {/* Col 2 — vazia (abaixo de Services) */}
+          <div />
+
+          {/* Col 3 — Copyright (abaixo de Get in touch) */}
+          <div className="flex flex-col items-end justify-end gap-1 text-right">
             <p className="font-sans text-[10px] uppercase tracking-[0.15em] text-[#1A1A1A]/50 md:text-xs">
               © 2026 Muller. All rights reserved.
             </p>
