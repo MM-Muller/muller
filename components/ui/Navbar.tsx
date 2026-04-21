@@ -78,8 +78,7 @@ export default function Navbar() {
           className="flex flex-row items-center gap-12 pt-8"
           aria-label="Left navigation"
         >
-          <NavLink href="#about">About</NavLink>
-          <NavLink href="#contact">Contact</NavLink>
+          <NavLink href="#work">Work</NavLink>
         </nav>
 
         {/* ── Logo Central — absolutamente centrada na tela ── */}
@@ -99,8 +98,8 @@ export default function Navbar() {
           className="flex flex-row items-center gap-12 pt-8"
           aria-label="Right navigation"
         >
-          <NavLink href="#automations">Automations</NavLink>
-          <NavLink href="#sites">Sites</NavLink>
+          <NavLink href="#about">About Me</NavLink>
+          <NavLink href="#contact">Contact</NavLink>
         </nav>
       </motion.header>
 
@@ -160,10 +159,9 @@ export default function Navbar() {
             aria-label="Mobile menu"
           >
             {[
-              { href: "#about",       label: "About" },
-              { href: "#automations", label: "Automations" },
-              { href: "#sites",       label: "Sites" },
-              { href: "#contact",     label: "Contact" },
+              { href: "#work",    label: "Work" },
+              { href: "#about",   label: "About Me" },
+              { href: "#contact", label: "Contact" },
             ].map(({ href, label }) => (
               <a
                 key={href}
