@@ -63,7 +63,7 @@ export default function Footer() {
               <SocialLink href="https://github.com/MM-Muller">
                 GitHub
               </SocialLink>
-              <SocialLink href="https://instagram.com">
+              <SocialLink href="https://www.instagram.com/matmull3r/">
                 Instagram
               </SocialLink>
             </div>
