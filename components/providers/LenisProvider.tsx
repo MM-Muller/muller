@@ -2,16 +2,9 @@
 
 import { ReactNode, useEffect } from "react";
 import Lenis from "lenis";
+import { lenisStore } from "@/lib/lenis-store";
 
-interface LenisProviderProps {
-  children: ReactNode;
-}
-
-/**
- * Wraps the app in Lenis smooth scroll.
- * Integrates with Framer Motion's global RAF loop via requestAnimationFrame.
- */
-export default function LenisProvider({ children }: LenisProviderProps) {
+export default function LenisProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.4,
@@ -22,18 +15,19 @@ export default function LenisProvider({ children }: LenisProviderProps) {
       touchMultiplier: 2,
     });
 
-    let rafId: number;
+    lenisStore.set(lenis);
 
+    let rafId: number;
     function raf(time: number) {
       lenis.raf(time);
       rafId = requestAnimationFrame(raf);
     }
-
     rafId = requestAnimationFrame(raf);
 
     return () => {
       cancelAnimationFrame(rafId);
       lenis.destroy();
+      lenisStore.clear();
     };
   }, []);
 

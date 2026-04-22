@@ -39,7 +39,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${cormorant.variable}`}
+      className={`${geistSans.variable} ${cormorant.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       <body>

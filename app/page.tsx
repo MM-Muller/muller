@@ -6,10 +6,12 @@
  */
 import Hero from "@/components/sections/Hero";
 import Footer from "@/components/sections/Footer";
+import ScrollOnMount from "@/components/providers/ScrollOnMount";
 
 export default function Home() {
   return (
     <main>
+      <ScrollOnMount />
       <Hero />
       <Footer />
     </main>

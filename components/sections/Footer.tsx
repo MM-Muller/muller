@@ -33,7 +33,7 @@ function SocialLink({ href, children }: { href: string; children: React.ReactNod
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#EBEAE5] text-[#1A1A1A]" aria-label="Footer">
+    <footer id="contact" className="w-full bg-[#EBEAE5] text-[#1A1A1A]" aria-label="Footer">
 
       {/* ── única linha divisória — topo do footer ── */}
       <div className="border-t border-[#1A1A1A]/20" />

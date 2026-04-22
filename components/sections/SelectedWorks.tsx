@@ -10,7 +10,7 @@ const projects = [
     title: "CMMI Compliance & Analytics",
     category: "RPA & Automations",
     description:
-      "Eliminação da coleta manual de dados através da orquestração de um fluxo automatizado de métricas de treinamento. A solução gera relatórios executivos em tempo real para a diretoria, garantindo conformidade contínua para a certificação CMMI e fornecendo inteligência para a otimização dos programas corporativos.",
+      "Elimination of manual data collection through an automated training-metrics workflow. The solution generates real-time executive reports for senior leadership, ensures continuous CMMI certification compliance, and delivers actionable intelligence to optimize corporate training programs.",
     techStack: "SHAREPOINT — POWER AUTOMATE — POWER APPS — DATA ANALYTICS",
   },
   {
@@ -18,7 +18,7 @@ const projects = [
     title: "Automated Contract Lifecycle",
     category: "RPA & Automations",
     description:
-      "Redução drástica do ciclo de vendas e da fricção operacional. Através de um painel centralizado, a equipe apenas insere as variáveis-chave, enquanto o sistema orquestra nativamente a criação, o envio, a aprovação do cliente e a rastreabilidade total de contratos empresariais.",
+      "Drastic reduction in sales cycle length and operational friction. Through a centralized dashboard, the team simply enters the key variables while the system natively orchestrates the creation, delivery, client approval, and full traceability of enterprise contracts.",
     techStack: "SHAREPOINT — POWER AUTOMATE — AZURE — POWER APPS — REST API",
   },
   {
@@ -26,7 +26,7 @@ const projects = [
     title: "Nexus RPG Platform",
     category: "SaaS Development",
     description:
-      "Desenvolvimento ponta a ponta de um produto SaaS de entretenimento interativo. A plataforma utiliza inteligência artificial generativa e bancos de dados vetoriais para criar narrativas adaptativas e memórias persistentes, oferecendo uma experiência imersiva e altamente personalizada.",
+      "End-to-end development of an interactive entertainment SaaS product. The platform leverages generative AI and vector databases to craft adaptive narratives and persistent memories, delivering a deeply immersive and highly personalized experience.",
     techStack: "PYTHON / FASTAPI — MONGODB / CHROMADB — LLMS — ANGULAR 16 — DOCKER",
   },
 ];

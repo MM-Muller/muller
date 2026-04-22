@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { lenisStore } from "@/lib/lenis-store";
 
 /* ─── Animation variants ─────────────────────────────── */
 const NAV_VARIANTS = {
@@ -41,11 +43,39 @@ const MOBILE_MENU_VARIANTS = {
 /* ─── Variant types ──────────────────────────────────── */
 type Variant = "light" | "dark" | "works";
 
+/* ─── Smooth anchor helper ───────────────────────────── */
 /*
-  light  → hero page: absolute, texto branco, logo "Müller" gigante
-  dark   → genérico fundo claro: relative, texto carvão, logo "Müller" gigante
-  works  → /works page: sticky com fundo off-white, logo imagem pequena
+  Intercepts every anchor click (href="#…" or href="/#…"),
+  prevents the browser's native jump, and drives the scroll
+  through Lenis so it stays buttery smooth.
 */
+function useAnchorClick() {
+  const router = useRouter();
+
+  return function handleAnchor(
+    e: React.MouseEvent,
+    href: string,
+    onAfter?: () => void,
+  ) {
+    if (!href.includes("#")) return; // non-anchor: let browser/Next handle it
+
+    e.preventDefault();
+
+    const isCrossPage = href.startsWith("/#");
+    const hash = isCrossPage ? "#" + href.split("/#")[1] : href;
+
+    if (isCrossPage && window.location.pathname !== "/") {
+      // Store intent, navigate — homepage will consume it on mount
+      lenisStore.setPending(hash);
+      router.push("/");
+      onAfter?.();
+    } else {
+      // Same page — scroll immediately
+      lenisStore.scrollTo(hash);
+      onAfter?.();
+    }
+  };
+}
 
 /* ─── Nav Link ───────────────────────────────────────── */
 function NavLink({
@@ -57,9 +87,12 @@ function NavLink({
   children: React.ReactNode;
   textClass: string;
 }) {
+  const handleAnchor = useAnchorClick();
+
   return (
     <a
       href={href}
+      onClick={(e) => handleAnchor(e, href)}
       className={`font-sans text-[10.5px] font-normal uppercase
                   tracking-[0.16em] whitespace-nowrap
                   transition-opacity duration-300 hover:opacity-40
@@ -73,18 +106,20 @@ function NavLink({
 /* ─── Navbar ─────────────────────────────────────────── */
 export default function Navbar({ variant = "light" }: { variant?: Variant }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const handleAnchor = useAnchorClick();
 
   /* ── Token maps ── */
-  const textClass   = variant === "light" ? "text-white/85"  : "text-[#1A1A1A]/65";
-  const logoClass   = variant === "light" ? "text-white"     : "text-[#1A1A1A]";
-  const barClass    = variant === "light" ? "bg-white"       : "bg-[#1A1A1A]";
-  const menuBg      = variant === "light" ? "bg-black/85"    : "bg-[#EBEAE5]/95";
-  const menuText    = variant === "light" ? "text-white/90"  : "text-[#1A1A1A]/80";
+  const textClass = variant === "light" ? "text-white/85"   : "text-[#1A1A1A]/65";
+  const logoClass = variant === "light" ? "text-white"      : "text-[#1A1A1A]";
+  const barClass  = variant === "light" ? "bg-white"        : "bg-[#1A1A1A]";
+  const menuBg    = variant === "light" ? "bg-black/85"     : "bg-[#EBEAE5]/95";
+  const menuText  = variant === "light" ? "text-white/90"   : "text-[#1A1A1A]/80";
 
-  /* ── Works variant: sticky header with solid bg ── */
+  /* ── Works variant ── */
   if (variant === "works") {
     return (
       <>
+        {/* Mobile top bar */}
         <motion.header
           className="sticky top-0 z-50 flex w-full items-center justify-between
                      bg-[#EBEAE5] px-6 py-8 md:hidden"
@@ -114,6 +149,7 @@ export default function Navbar({ variant = "light" }: { variant?: Variant }) {
           </button>
         </motion.header>
 
+        {/* Desktop bar */}
         <motion.header
           className="sticky top-0 z-50 hidden w-full
                      grid grid-cols-3 items-start bg-[#EBEAE5] md:grid"
@@ -135,25 +171,17 @@ export default function Navbar({ variant = "light" }: { variant?: Variant }) {
             </Link>
           </nav>
 
-          {/* Center — logo in flow, defines real header height */}
+          {/* Center — logo in flow */}
           <div className="flex justify-center">
-            <Link
-              href="/"
-              aria-label="Müller — Home"
-              className="transition-opacity duration-300 hover:opacity-60"
-            >
-              <img
-                src="/logo.png"
-                alt="Muller"
-                className="h-24 w-auto object-contain md:h-32"
-              />
+            <Link href="/" aria-label="Müller — Home" className="transition-opacity duration-300 hover:opacity-60">
+              <img src="/logo.png" alt="Muller" className="h-24 w-auto object-contain md:h-32" />
             </Link>
           </div>
 
           {/* Right */}
           <nav className="flex items-center justify-end gap-12 pt-2" aria-label="Right navigation">
-            <NavLink href="#about"   textClass="text-[#1A1A1A]/65">About Me</NavLink>
-            <NavLink href="#contact" textClass="text-[#1A1A1A]/65">Contact</NavLink>
+            <NavLink href="/#about"   textClass="text-[#1A1A1A]/65">About Me</NavLink>
+            <NavLink href="/#contact" textClass="text-[#1A1A1A]/65">Contact</NavLink>
           </nav>
         </motion.header>
 
@@ -170,19 +198,19 @@ export default function Navbar({ variant = "light" }: { variant?: Variant }) {
               aria-label="Mobile menu"
             >
               {[
-                { href: "/works",   label: "Work" },
-                { href: "#about",   label: "About Me" },
-                { href: "#contact", label: "Contact" },
+                { href: "/works",    label: "Work" },
+                { href: "/#about",   label: "About Me" },
+                { href: "/#contact", label: "Contact" },
               ].map(({ href, label }) => (
-                <Link
+                <a
                   key={href}
                   href={href}
-                  onClick={() => setMenuOpen(false)}
+                  onClick={(e) => handleAnchor(e, href, () => setMenuOpen(false))}
                   className="font-sans text-[13px] uppercase tracking-[0.18em]
                              text-[#1A1A1A]/80 transition-opacity duration-200 hover:opacity-50"
                 >
                   {label}
-                </Link>
+                </a>
               ))}
             </motion.nav>
           )}
@@ -191,7 +219,7 @@ export default function Navbar({ variant = "light" }: { variant?: Variant }) {
     );
   }
 
-  /* ── Light / Dark variants (hero + generic) ── */
+  /* ── Light / Dark variants ── */
   const posClass = variant === "light" ? "absolute" : "relative";
 
   return (
@@ -287,16 +315,16 @@ export default function Navbar({ variant = "light" }: { variant?: Variant }) {
               { href: "#about",   label: "About Me" },
               { href: "#contact", label: "Contact" },
             ].map(({ href, label }) => (
-              <Link
+              <a
                 key={href}
                 href={href}
-                onClick={() => setMenuOpen(false)}
+                onClick={(e) => handleAnchor(e, href, () => setMenuOpen(false))}
                 className={`text-[13px] font-sans font-normal uppercase
                              tracking-[0.18em] transition-opacity duration-200
                              hover:opacity-50 ${menuText}`}
               >
                 {label}
-              </Link>
+              </a>
             ))}
           </motion.nav>
         )}
