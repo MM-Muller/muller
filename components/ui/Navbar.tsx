@@ -180,7 +180,7 @@ export default function Navbar({ variant = "light" }: { variant?: Variant }) {
 
           {/* Right */}
           <nav className="flex items-center justify-end gap-12 pt-2" aria-label="Right navigation">
-            <NavLink href="/about"    textClass="text-[#1A1A1A]/65">About Me</NavLink>
+            <NavLink href="/about"    textClass="text-[#1A1A1A]/65">About</NavLink>
             <NavLink href="/#contact" textClass="text-[#1A1A1A]/65">Contact</NavLink>
           </nav>
         </motion.header>
@@ -199,7 +199,7 @@ export default function Navbar({ variant = "light" }: { variant?: Variant }) {
             >
               {[
                 { href: "/works",    label: "Work" },
-                { href: "/about",    label: "About Me" },
+                { href: "/about",    label: "About" },
                 { href: "/#contact", label: "Contact" },
               ].map(({ href, label }) => (
                 <a
@@ -257,7 +257,7 @@ export default function Navbar({ variant = "light" }: { variant?: Variant }) {
         </Link>
 
         <nav className="flex flex-row items-center gap-12 pt-8" aria-label="Right navigation">
-          <NavLink href="/about"   textClass={textClass}>About Me</NavLink>
+          <NavLink href="/about"   textClass={textClass}>About</NavLink>
           <NavLink href="#contact" textClass={textClass}>Contact</NavLink>
         </nav>
       </motion.header>
@@ -312,7 +312,7 @@ export default function Navbar({ variant = "light" }: { variant?: Variant }) {
           >
             {[
               { href: "/works",   label: "Work" },
-              { href: "/about",   label: "About Me" },
+              { href: "/about",   label: "About" },
               { href: "#contact", label: "Contact" },
             ].map(({ href, label }) => (
               <a
