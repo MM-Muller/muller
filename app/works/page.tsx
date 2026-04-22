@@ -3,7 +3,7 @@ import Navbar from "@/components/ui/Navbar";
 import SelectedWorks from "@/components/sections/SelectedWorks";
 
 export const metadata: Metadata = {
-  title: "Works — Muller & Co. Engineer",
+  title: "Works — Muller & Co. Engineering",
   description:
     "Selected projects in RPA Automations, SaaS Development, and Business Consulting.",
 };

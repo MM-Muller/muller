@@ -126,7 +126,7 @@ export default function Footer() {
             >
               <img
                 src="/logo.png"
-                alt="Muller logo"
+                alt="Muller & Co. Engineering"
                 className="w-40 select-none"
                 style={{ transform: "translateX(-8px)" }}
               />
@@ -139,7 +139,7 @@ export default function Footer() {
           {/* Col 3 — Copyright (abaixo de Get in touch) */}
           <div className="flex flex-col items-end justify-end gap-1 text-right">
             <p className="font-sans text-[10px] uppercase tracking-[0.15em] text-[#1A1A1A]/50 md:text-xs">
-              © 2026 Muller. All rights reserved.
+              © 2026 Muller &amp; Co. Engineering. All rights reserved.
             </p>
             <p className="font-sans text-[10px] uppercase tracking-[0.15em] text-[#1A1A1A]/40 md:text-xs">
               Curitiba, Brasil

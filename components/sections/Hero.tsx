@@ -58,7 +58,7 @@ export default function Hero() {
         */}
         <img
           src="/hero.png"
-          alt="Matheus Muller — Backend Engineer & Tech Lead"
+          alt="Matheus Muller — Engineer & Tech Lead"
           className="h-full w-full object-cover object-[center_12%]"
           fetchPriority="high"
         />
@@ -97,7 +97,7 @@ export default function Hero() {
           animate="visible"
           custom={0.6}
         >
-          Introducing Muller &amp; Co. Engineer
+          Introducing Muller &amp; Co. Engineering
         </motion.p>
 
         {/* Descrição */}
@@ -108,7 +108,7 @@ export default function Hero() {
           animate="visible"
           custom={0.85}
         >
-          Matheus, Backend Software Engineer &amp; Tech Lead. A celebration of
+          Matheus, Software Engineer &amp; Tech Lead. A celebration of
           intelligent design, systemic automation, and high-performance
           software engineering. Welcome to my space.
         </motion.p>

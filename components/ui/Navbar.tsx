@@ -41,7 +41,7 @@ const MOBILE_MENU_VARIANTS = {
 };
 
 /* ─── Variant types ──────────────────────────────────── */
-type Variant = "light" | "dark" | "works";
+type Variant = "light" | "dark" | "works" | "about";
 
 /* ─── Smooth anchor helper ───────────────────────────── */
 /*
@@ -115,8 +115,8 @@ export default function Navbar({ variant = "light" }: { variant?: Variant }) {
   const menuBg    = variant === "light" ? "bg-black/85"     : "bg-[#EBEAE5]/95";
   const menuText  = variant === "light" ? "text-white/90"   : "text-[#1A1A1A]/80";
 
-  /* ── Works variant ── */
-  if (variant === "works") {
+  /* ── Works / About variant (shared sticky layout) ── */
+  if (variant === "works" || variant === "about") {
     return (
       <>
         {/* Mobile top bar */}
@@ -129,7 +129,7 @@ export default function Navbar({ variant = "light" }: { variant?: Variant }) {
           aria-label="Mobile header — Works"
         >
           <Link href="/" className="transition-opacity duration-300 hover:opacity-60">
-            <img src="/logo.png" alt="Muller" className="h-8 w-auto object-contain" />
+            <img src="/logo.png" alt="Muller & Co. Engineering" className="h-8 w-auto object-contain" />
           </Link>
           <button
             onClick={() => setMenuOpen((v) => !v)}
@@ -174,13 +174,13 @@ export default function Navbar({ variant = "light" }: { variant?: Variant }) {
           {/* Center — logo in flow */}
           <div className="flex justify-center">
             <Link href="/" aria-label="Müller — Home" className="transition-opacity duration-300 hover:opacity-60">
-              <img src="/logo.png" alt="Muller" className="h-24 w-auto object-contain md:h-32" />
+              <img src="/logo.png" alt="Muller & Co. Engineering" className="h-24 w-auto object-contain md:h-32" />
             </Link>
           </div>
 
           {/* Right */}
           <nav className="flex items-center justify-end gap-12 pt-2" aria-label="Right navigation">
-            <NavLink href="/#about"   textClass="text-[#1A1A1A]/65">About Me</NavLink>
+            <NavLink href="/about"    textClass="text-[#1A1A1A]/65">About Me</NavLink>
             <NavLink href="/#contact" textClass="text-[#1A1A1A]/65">Contact</NavLink>
           </nav>
         </motion.header>
@@ -199,7 +199,7 @@ export default function Navbar({ variant = "light" }: { variant?: Variant }) {
             >
               {[
                 { href: "/works",    label: "Work" },
-                { href: "/#about",   label: "About Me" },
+                { href: "/about",    label: "About Me" },
                 { href: "/#contact", label: "Contact" },
               ].map(({ href, label }) => (
                 <a
@@ -257,7 +257,7 @@ export default function Navbar({ variant = "light" }: { variant?: Variant }) {
         </Link>
 
         <nav className="flex flex-row items-center gap-12 pt-8" aria-label="Right navigation">
-          <NavLink href="#about"   textClass={textClass}>About Me</NavLink>
+          <NavLink href="/about"   textClass={textClass}>About Me</NavLink>
           <NavLink href="#contact" textClass={textClass}>Contact</NavLink>
         </nav>
       </motion.header>
@@ -312,7 +312,7 @@ export default function Navbar({ variant = "light" }: { variant?: Variant }) {
           >
             {[
               { href: "/works",   label: "Work" },
-              { href: "#about",   label: "About Me" },
+              { href: "/about",   label: "About Me" },
               { href: "#contact", label: "Contact" },
             ].map(({ href, label }) => (
               <a

@@ -22,11 +22,11 @@ const cormorant = Cormorant_Garamond({
 
 /* ─── Metadata ───────────────────────────────────────── */
 export const metadata: Metadata = {
-  title: "Muller & Co. Engineer",
+  title: "Muller & Co. Engineering",
   description:
     "Matheus — Backend Software Engineer & Tech Lead. A celebration of intelligent design, systemic automation, and high-performance software engineering.",
   openGraph: {
-    title: "Muller & Co. Engineer",
+    title: "Muller & Co. Engineering",
     description: "Backend Software Engineer & Tech Lead.",
     type: "website",
   },
