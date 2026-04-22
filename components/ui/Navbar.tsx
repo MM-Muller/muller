@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
-/* ─── Variants ────────────────────────────────────────── */
+/* ─── Animation variants ─────────────────────────────── */
 const NAV_VARIANTS = {
   hidden: { opacity: 0, y: -8 },
   visible: {
@@ -37,14 +38,32 @@ const MOBILE_MENU_VARIANTS = {
   },
 };
 
+/* ─── Variant types ──────────────────────────────────── */
+type Variant = "light" | "dark" | "works";
+
+/*
+  light  → hero page: absolute, texto branco, logo "Müller" gigante
+  dark   → genérico fundo claro: relative, texto carvão, logo "Müller" gigante
+  works  → /works page: sticky com fundo off-white, logo imagem pequena
+*/
+
 /* ─── Nav Link ───────────────────────────────────────── */
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+function NavLink({
+  href,
+  children,
+  textClass,
+}: {
+  href: string;
+  children: React.ReactNode;
+  textClass: string;
+}) {
   return (
     <a
       href={href}
-      className="font-sans text-[11px] font-normal uppercase
-                 tracking-[0.15em] text-white/85 whitespace-nowrap
-                 transition-opacity duration-300 hover:opacity-40"
+      className={`font-sans text-[10.5px] font-normal uppercase
+                  tracking-[0.16em] whitespace-nowrap
+                  transition-opacity duration-300 hover:opacity-40
+                  ${textClass}`}
     >
       {children}
     </a>
@@ -52,106 +71,211 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
 }
 
 /* ─── Navbar ─────────────────────────────────────────── */
-export default function Navbar() {
+export default function Navbar({ variant = "light" }: { variant?: Variant }) {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  /* ── Token maps ── */
+  const textClass   = variant === "light" ? "text-white/85"  : "text-[#1A1A1A]/65";
+  const logoClass   = variant === "light" ? "text-white"     : "text-[#1A1A1A]";
+  const barClass    = variant === "light" ? "bg-white"       : "bg-[#1A1A1A]";
+  const menuBg      = variant === "light" ? "bg-black/85"    : "bg-[#EBEAE5]/95";
+  const menuText    = variant === "light" ? "text-white/90"  : "text-[#1A1A1A]/80";
+
+  /* ── Works variant: sticky header with solid bg ── */
+  if (variant === "works") {
+    return (
+      <>
+        <motion.header
+          className="sticky top-0 z-50 flex w-full items-center justify-between
+                     bg-[#EBEAE5] px-6 py-8 md:hidden"
+          variants={NAV_VARIANTS}
+          initial="hidden"
+          animate="visible"
+          aria-label="Mobile header — Works"
+        >
+          <Link href="/" className="transition-opacity duration-300 hover:opacity-60">
+            <img src="/logo.png" alt="Muller" className="h-8 w-auto object-contain" />
+          </Link>
+          <button
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            className="flex flex-col justify-center gap-[5px] p-1"
+          >
+            {[0, 1, 2].map((i) => (
+              <span
+                key={i}
+                className={`block h-px w-6 bg-[#1A1A1A] transition-all duration-300
+                  ${i === 0 && menuOpen ? "translate-y-[7px] rotate-45" : ""}
+                  ${i === 1 && menuOpen ? "opacity-0 scale-x-0" : ""}
+                  ${i === 2 && menuOpen ? "-translate-y-[7px] -rotate-45" : ""}`}
+              />
+            ))}
+          </button>
+        </motion.header>
+
+        <motion.header
+          className="sticky top-0 z-50 hidden w-full
+                     grid grid-cols-3 items-start bg-[#EBEAE5] md:grid"
+          style={{ paddingLeft: "2vw", paddingRight: "2vw", paddingTop: "1vw", paddingBottom: "1vw" }}
+          variants={NAV_VARIANTS}
+          initial="hidden"
+          animate="visible"
+          aria-label="Main header — Works"
+        >
+          {/* Left */}
+          <nav className="flex items-center gap-12 pt-2" aria-label="Left navigation">
+            <Link
+              href="/works"
+              className="font-sans text-[10.5px] font-normal uppercase
+                         tracking-[0.16em] text-[#1A1A1A]/65 whitespace-nowrap
+                         transition-opacity duration-300 hover:opacity-40"
+            >
+              Work
+            </Link>
+          </nav>
+
+          {/* Center — logo in flow, defines real header height */}
+          <div className="flex justify-center">
+            <Link
+              href="/"
+              aria-label="Müller — Home"
+              className="transition-opacity duration-300 hover:opacity-60"
+            >
+              <img
+                src="/logo.png"
+                alt="Muller"
+                className="h-24 w-auto object-contain md:h-32"
+              />
+            </Link>
+          </div>
+
+          {/* Right */}
+          <nav className="flex items-center justify-end gap-12 pt-2" aria-label="Right navigation">
+            <NavLink href="#about"   textClass="text-[#1A1A1A]/65">About Me</NavLink>
+            <NavLink href="#contact" textClass="text-[#1A1A1A]/65">Contact</NavLink>
+          </nav>
+        </motion.header>
+
+        {/* Mobile menu */}
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.nav
+              className="fixed inset-x-0 top-[57px] z-40 flex flex-col gap-6
+                         bg-[#EBEAE5]/95 px-6 py-8 backdrop-blur-sm md:hidden"
+              variants={MOBILE_MENU_VARIANTS}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              aria-label="Mobile menu"
+            >
+              {[
+                { href: "/works",   label: "Work" },
+                { href: "#about",   label: "About Me" },
+                { href: "#contact", label: "Contact" },
+              ].map(({ href, label }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={() => setMenuOpen(false)}
+                  className="font-sans text-[13px] uppercase tracking-[0.18em]
+                             text-[#1A1A1A]/80 transition-opacity duration-200 hover:opacity-50"
+                >
+                  {label}
+                </Link>
+              ))}
+            </motion.nav>
+          )}
+        </AnimatePresence>
+      </>
+    );
+  }
+
+  /* ── Light / Dark variants (hero + generic) ── */
+  const posClass = variant === "light" ? "absolute" : "relative";
 
   return (
     <>
-      {/* ─────────────────────────────────────────────────────
-          DESKTOP HEADER
-          Estrutura: flex row com 3 zonas
-          ─ Esquerda: links em linha (flex-row)
-          ─ Centro:   logo absoluta no eixo da tela
-          ─ Direita:  links em linha (flex-row)
-          ───────────────────────────────────────────────────── */}
+      {/* Desktop */}
       <motion.header
-        className="absolute inset-x-0 top-0 z-50 hidden w-full
-                   items-start justify-between pt-8 md:flex"
+        className={`${posClass} inset-x-0 top-0 z-50 hidden w-full
+                    items-start justify-between md:flex`}
         style={{ paddingLeft: "2vw", paddingRight: "2vw", paddingTop: "1vw" }}
         variants={NAV_VARIANTS}
         initial="hidden"
         animate="visible"
         aria-label="Main header"
       >
-        {/* ── Links Esquerda — em linha ── */}
-        <nav
-          className="flex flex-row items-center gap-12 pt-8"
-          aria-label="Left navigation"
-        >
-          <NavLink href="#work">Work</NavLink>
+        <nav className="flex flex-row items-center gap-12 pt-8" aria-label="Left navigation">
+          <Link
+            href="/works"
+            className={`font-sans text-[10.5px] font-normal uppercase
+                        tracking-[0.16em] whitespace-nowrap
+                        transition-opacity duration-300 hover:opacity-40 ${textClass}`}
+          >
+            Work
+          </Link>
         </nav>
 
-        {/* ── Logo Central — absolutamente centrada na tela ── */}
-        <a
+        <Link
           href="/"
           aria-label="Müller — Home"
-          className="absolute left-1/2 top-4 -translate-x-1/2
-                     font-display text-[7vw] font-semibold leading-none
-                     tracking-[0.06em] text-white uppercase select-none
-                     transition-opacity duration-500 hover:opacity-60"
+          className={`absolute left-1/2 top-4 -translate-x-1/2
+                      font-display text-[7vw] font-semibold leading-none
+                      tracking-[0.06em] uppercase select-none
+                      transition-opacity duration-500 hover:opacity-60 ${logoClass}`}
         >
           Müller
-        </a>
+        </Link>
 
-        {/* ── Links Direita — em linha ── */}
-        <nav
-          className="flex flex-row items-center gap-12 pt-8"
-          aria-label="Right navigation"
-        >
-          <NavLink href="#about">About Me</NavLink>
-          <NavLink href="#contact">Contact</NavLink>
+        <nav className="flex flex-row items-center gap-12 pt-8" aria-label="Right navigation">
+          <NavLink href="#about"   textClass={textClass}>About Me</NavLink>
+          <NavLink href="#contact" textClass={textClass}>Contact</NavLink>
         </nav>
       </motion.header>
 
-      {/* ─────────────────────────────────────────────────────
-          MOBILE HEADER — Logo + Hambúrguer
-          ───────────────────────────────────────────────── */}
+      {/* Mobile */}
       <motion.header
-        className="absolute inset-x-0 top-0 z-50 flex w-full
-                   items-center justify-between px-6 pt-6 md:hidden"
+        className={`${posClass} inset-x-0 top-0 z-50 flex w-full
+                    items-center justify-between px-6 pt-6 md:hidden`}
         variants={NAV_VARIANTS}
         initial="hidden"
         animate="visible"
         aria-label="Mobile header"
       >
-        <a
+        <Link
           href="/"
           aria-label="Müller — Home"
-          className="font-display text-[2rem] font-normal leading-none
-                     tracking-[0.05em] text-white uppercase select-none
-                     transition-opacity duration-300 hover:opacity-60"
+          className={`font-display text-[2rem] font-normal leading-none
+                      tracking-[0.05em] uppercase select-none
+                      transition-opacity duration-300 hover:opacity-60 ${logoClass}`}
         >
           Müller
-        </a>
+        </Link>
 
-        {/* Hambúrguer — 3 traços → ✕ */}
         <button
           onClick={() => setMenuOpen((v) => !v)}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}
           className="flex flex-col justify-center gap-[5px] p-1"
         >
-          <span
-            className={`block h-px w-6 bg-white transition-all duration-300
-              ${menuOpen ? "translate-y-[7px] rotate-45" : ""}`}
-          />
-          <span
-            className={`block h-px w-6 bg-white transition-all duration-300
-              ${menuOpen ? "opacity-0 scale-x-0" : ""}`}
-          />
-          <span
-            className={`block h-px w-6 bg-white transition-all duration-300
-              ${menuOpen ? "-translate-y-[7px] -rotate-45" : ""}`}
-          />
+          {[0, 1, 2].map((i) => (
+            <span
+              key={i}
+              className={`block h-px w-6 transition-all duration-300 ${barClass}
+                ${i === 0 && menuOpen ? "translate-y-[7px] rotate-45" : ""}
+                ${i === 1 && menuOpen ? "opacity-0 scale-x-0" : ""}
+                ${i === 2 && menuOpen ? "-translate-y-[7px] -rotate-45" : ""}`}
+            />
+          ))}
         </button>
       </motion.header>
 
-      {/* ── Mobile Menu Dropdown ── */}
       <AnimatePresence>
         {menuOpen && (
           <motion.nav
-            className="absolute inset-x-0 top-[72px] z-40 flex flex-col gap-6
-                       bg-black/85 px-6 py-8 backdrop-blur-sm md:hidden"
+            className={`${posClass === "absolute" ? "absolute" : "fixed"} inset-x-0 top-[72px] z-40
+                         flex flex-col gap-6 px-6 py-8 backdrop-blur-sm md:hidden ${menuBg}`}
             variants={MOBILE_MENU_VARIANTS}
             initial="hidden"
             animate="visible"
@@ -159,20 +283,20 @@ export default function Navbar() {
             aria-label="Mobile menu"
           >
             {[
-              { href: "#work",    label: "Work" },
+              { href: "/works",   label: "Work" },
               { href: "#about",   label: "About Me" },
               { href: "#contact", label: "Contact" },
             ].map(({ href, label }) => (
-              <a
+              <Link
                 key={href}
                 href={href}
                 onClick={() => setMenuOpen(false)}
-                className="text-[13px] font-sans font-normal uppercase
-                           tracking-[0.18em] text-white/90
-                           transition-opacity duration-200 hover:opacity-50"
+                className={`text-[13px] font-sans font-normal uppercase
+                             tracking-[0.18em] transition-opacity duration-200
+                             hover:opacity-50 ${menuText}`}
               >
                 {label}
-              </a>
+              </Link>
             ))}
           </motion.nav>
         )}

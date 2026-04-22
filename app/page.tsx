@@ -11,12 +11,6 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      {/*
-        Next sections — to be added after feedback:
-        <AboutGrid />
-        <Expertise />
-        <SelectedWork />
-      */}
       <Footer />
     </main>
   );
