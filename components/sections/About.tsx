@@ -43,7 +43,7 @@ export default function About() {
       >
         <div
           className="bg-white p-3 pb-10 shadow-2xl"
-          style={{ rotate: "-2deg", maxWidth: "480px", width: "90%" }}
+          style={{ maxWidth: "480px", width: "90%" }}
         >
           <img
             src="/me.jpg"
