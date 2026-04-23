@@ -4,7 +4,16 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 /* ─── Data ───────────────────────────────────────────── */
-const projects = [
+type Project = {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  techStack: string;
+  comingSoon?: boolean;
+};
+
+const projects: Project[] = [
   {
     id: "01",
     title: "CMMI Compliance & Analytics",
@@ -28,6 +37,15 @@ const projects = [
     description:
       "End-to-end development of an interactive entertainment SaaS product. The platform leverages generative AI and vector databases to craft adaptive narratives and persistent memories, delivering a deeply immersive and highly personalized experience.",
     techStack: "PYTHON / FASTAPI — MONGODB / CHROMADB — LLMS — ANGULAR 16 — DOCKER",
+  },
+  {
+    id: "04",
+    title: "WeTogether",
+    category: "SaaS Development",
+    description:
+      "A complete client management platform built to centralize relationships, streamline follow-ups, and give businesses full visibility over their pipeline. Designed for teams that value clarity and speed in every client interaction.",
+    techStack: "COMING SOON",
+    comingSoon: true,
   },
 ];
 
@@ -177,22 +195,28 @@ export default function SelectedWorks() {
                   </p>
 
                   {/* CTA */}
-                  <a
-                    href="#"
-                    className="group mt-10 inline-flex items-center gap-2 font-sans
-                               text-[11px] uppercase tracking-[0.18em] text-[#1A1A1A]"
-                  >
-                    <span className="relative">
-                      Discover More
-                      <span
-                        className="absolute -bottom-px left-0 h-px w-0 bg-[#1A1A1A]
-                                   transition-all duration-500 group-hover:w-full"
-                      />
-                    </span>
-                    <span className="transition-transform duration-300 group-hover:translate-x-1">
-                      →
-                    </span>
-                  </a>
+                  {project.comingSoon ? (
+                    <p className="mt-10 font-sans text-[11px] uppercase tracking-[0.18em] text-[#1A1A1A]/30">
+                      Launching Soon
+                    </p>
+                  ) : (
+                    <a
+                      href="#"
+                      className="group mt-10 inline-flex items-center gap-2 font-sans
+                                 text-[11px] uppercase tracking-[0.18em] text-[#1A1A1A]"
+                    >
+                      <span className="relative">
+                        Discover More
+                        <span
+                          className="absolute -bottom-px left-0 h-px w-0 bg-[#1A1A1A]
+                                     transition-all duration-500 group-hover:w-full"
+                        />
+                      </span>
+                      <span className="transition-transform duration-300 group-hover:translate-x-1">
+                        →
+                      </span>
+                    </a>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>

@@ -34,11 +34,31 @@ export default function About() {
       style={{ minHeight: "100svh" }}
       aria-label="About"
     >
-      {/* ── LEFT — Copy ── */}
+      {/* ── LEFT — Polaroid ── */}
       <motion.div
-        className="flex flex-col items-center justify-center bg-[#EBEAE5]
-                   px-12 py-20 text-center md:px-24 md:py-32"
+        className="flex items-center justify-center bg-[#EBEAE5] py-20 md:py-0"
         variants={FADE_LEFT}
+        initial="hidden"
+        animate="visible"
+      >
+        <div
+          className="bg-white p-3 pb-10 shadow-2xl"
+          style={{ rotate: "-2deg", maxWidth: "480px", width: "90%" }}
+        >
+          <img
+            src="/me.jpg"
+            alt="Matheus Müller"
+            className="block w-full object-cover"
+            style={{ aspectRatio: "4/5" }}
+          />
+        </div>
+      </motion.div>
+
+      {/* ── RIGHT — Copy ── */}
+      <motion.div
+        className="flex flex-col items-start justify-center bg-[#EBEAE5]
+                   px-12 py-20 text-left md:pl-10 md:pr-16 md:py-32"
+        variants={FADE_RIGHT}
         initial="hidden"
         animate="visible"
         viewport={{ once: true, margin: "-80px" }}
@@ -71,20 +91,6 @@ export default function About() {
           eliminate friction, ensure compliance, and accelerate business.
           Where complexity reigns, we deliver clarity.
         </p>
-      </motion.div>
-
-      {/* ── RIGHT — Photo full-bleed ── */}
-      <motion.div
-        className="relative h-[60vw] md:h-auto"
-        variants={FADE_RIGHT}
-        initial="hidden"
-        animate="visible"
-      >
-        <img
-          src="/me.jpg"
-          alt="Matheus Müller"
-          className="absolute inset-0 h-full w-full object-cover object-center"
-        />
       </motion.div>
     </section>
   );
