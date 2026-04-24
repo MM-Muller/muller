@@ -135,16 +135,6 @@ function MobileOverlay({
           exit="exit"
           aria-label="Mobile menu"
         >
-          {/* Close button top-right */}
-          <button
-            onClick={onClose}
-            aria-label="Close menu"
-            className="absolute right-5 top-5 p-3"
-          >
-            <span className={`block h-px w-6 translate-y-px rotate-45 ${textColor === "text-white" ? "bg-white" : "bg-[#1A1A1A]"}`} />
-            <span className={`block h-px w-6 -translate-y-px -rotate-45 ${textColor === "text-white" ? "bg-white" : "bg-[#1A1A1A]"}`} />
-          </button>
-
           {/* Links */}
           <nav className="flex flex-col items-center gap-10">
             {NAV_LINKS.map(({ href, label }, i) => (
@@ -302,28 +292,32 @@ export default function Navbar({ variant = "light" }: { variant?: Variant }) {
 
       {/* Mobile top bar */}
       <motion.header
-        className={`${posClass} inset-x-0 top-0 z-50 flex w-full items-center px-4 pt-5 md:hidden`}
+        className={`${posClass} inset-x-0 top-0 z-50 flex w-full items-center md:hidden`}
+        style={{ paddingTop: "20px", paddingBottom: "20px", paddingLeft: "24px", paddingRight: "24px" }}
         variants={NAV_VARIANTS}
         initial="hidden"
         animate="visible"
         aria-label="Mobile header"
       >
         {/* Left spacer */}
-        <div className="w-12" />
+        <div style={{ width: "56px" }} />
 
         {/* Logo centered */}
         <Link
           href="/"
           aria-label="Müller — Home"
-          className={`flex flex-1 justify-center font-display text-[2rem] font-normal leading-none
+          className={`flex flex-1 justify-center font-display font-normal leading-none
                       tracking-[0.05em] uppercase select-none
                       transition-opacity duration-300 hover:opacity-60 ${logoClass}`}
+          style={{ fontSize: "2.4rem" }}
         >
           Müller
         </Link>
 
         {/* Hamburger right */}
-        <Hamburger open={menuOpen} onClick={() => setMenuOpen((v) => !v)} barClass={barClass} />
+        <div style={{ width: "56px", display: "flex", justifyContent: "flex-end" }}>
+          <Hamburger open={menuOpen} onClick={() => setMenuOpen((v) => !v)} barClass={barClass} />
+        </div>
       </motion.header>
 
       <MobileOverlay

@@ -116,7 +116,7 @@ export default function Hero() {
 
       {/* ── Scroll Indicator ── */}
       <motion.div
-        className="absolute bottom-8 right-8 z-10 flex flex-col items-center gap-3"
+        className="absolute bottom-8 right-8 z-10 hidden md:flex flex-col items-center gap-3"
         variants={FADE_UP_VARIANTS}
         initial="hidden"
         animate="visible"
