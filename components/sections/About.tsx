@@ -36,14 +36,14 @@ export default function About() {
     >
       {/* ── LEFT — Polaroid ── */}
       <motion.div
-        className="flex items-center justify-center bg-[#EBEAE5] py-20 md:py-0"
+        className="flex items-center justify-end bg-[#EBEAE5] py-20 md:py-0"
         variants={FADE_LEFT}
         initial="hidden"
         animate="visible"
       >
         <div
           className="bg-white p-3 pb-10 shadow-2xl"
-          style={{ maxWidth: "480px", width: "90%" }}
+          style={{ maxWidth: "530px", width: "90%", marginRight: "35px" }}
         >
           <img
             src="/me.jpg"
@@ -56,41 +56,43 @@ export default function About() {
 
       {/* ── RIGHT — Copy ── */}
       <motion.div
-        className="flex flex-col items-start justify-center bg-[#EBEAE5]
-                   px-12 py-20 text-left md:pl-10 md:pr-16 md:py-32"
+        className="flex flex-col items-center justify-center bg-[#EBEAE5]
+                   px-12 py-20 text-center md:px-16 md:py-32"
         variants={FADE_RIGHT}
         initial="hidden"
         animate="visible"
-        viewport={{ once: true, margin: "-80px" }}
+        viewport={{ once: true, margin: "0px" }}
       >
-        {/* Logo — links back to home */}
-        <Link href="/" aria-label="Back to home" className="transition-opacity duration-300 hover:opacity-60">
-          <img
-            src="/logo.png"
-            alt="Muller & Co. Engineering"
-            className="w-40 select-none"
-          />
-        </Link>
+        <div style={{ marginRight: "100px" }}>
+          {/* Logo — links back to home */}
+          <Link href="/" aria-label="Back to home" className="transition-opacity duration-300 hover:opacity-60 inline-block">
+            <img
+              src="/logo.png"
+              alt="Muller & Co. Engineering"
+              className="w-40 select-none"
+            />
+          </Link>
 
-        {/* Title */}
-        <h2
-          className="mt-12 font-display font-normal leading-tight text-[#1A1A1A]
-                     text-4xl md:text-5xl lg:text-6xl"
-        >
-          Engineering<br />as Systemic Art.
-        </h2>
+          {/* Title */}
+          <h2
+            className="mt-12 font-display font-normal leading-tight text-[#1A1A1A]
+                       text-4xl md:text-5xl lg:text-6xl"
+          >
+            Engineering<br />as Systemic Art.
+          </h2>
 
-        {/* Body */}
-        <p
-          className="mt-8 max-w-md font-sans text-sm font-light leading-relaxed
-                     text-[#1A1A1A]/70 md:text-base"
-        >
-          At Muller &amp; Co. Engineering, we don&apos;t just write code — we orchestrate trust.
-          Our philosophy bridges executive logic with technical precision.
-          We architect high-performance systems and systemic automations that
-          eliminate friction, ensure compliance, and accelerate business.
-          Where complexity reigns, we deliver clarity.
-        </p>
+          {/* Body */}
+          <p
+            className="mt-8 max-w-md font-sans text-sm font-light leading-relaxed
+                       text-[#1A1A1A]/70 md:text-base"
+          >
+            At Muller &amp; Co. Engineering, we don&apos;t just write code — we orchestrate trust.
+            Our philosophy bridges executive logic with technical precision.
+            We architect high-performance systems and systemic automations that
+            eliminate friction, ensure compliance, and accelerate business.
+            Where complexity reigns, we deliver clarity.
+          </p>
+        </div>
       </motion.div>
     </section>
   );
