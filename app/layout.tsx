@@ -24,10 +24,10 @@ const cormorant = Cormorant_Garamond({
 export const metadata: Metadata = {
   title: "Muller & Co. Engineering",
   description:
-    "Matheus — Backend Software Engineer & Tech Lead. A celebration of intelligent design, systemic automation, and high-performance software engineering.",
+    "Matheus — Software Engineer. A celebration of intelligent design, systemic automation, and high-performance software engineering.",
   openGraph: {
     title: "Muller & Co. Engineering",
-    description: "Backend Software Engineer & Tech Lead.",
+    description: "Software Engineer.",
     type: "website",
   },
 };
