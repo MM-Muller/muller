@@ -34,27 +34,22 @@ export default function About() {
       style={{ minHeight: "100svh" }}
       aria-label="About"
     >
-      {/* ── LEFT — Polaroid ── */}
+      {/* ── LEFT — Foto tamanho original ── */}
       <motion.div
-        className="flex items-center justify-end bg-[#EBEAE5] py-20 md:py-0"
+        className="hidden md:flex items-center justify-start bg-[#EBEAE5] overflow-hidden"
         variants={FADE_LEFT}
         initial="hidden"
         animate="visible"
       >
-        <div
-          className="bg-white p-3 pb-10 shadow-2xl"
-          style={{ maxWidth: "530px", width: "90%", marginRight: "35px" }}
-        >
-          <img
-            src="/me.jpg"
-            alt="Matheus Müller"
-            className="block w-full object-cover"
-            style={{ aspectRatio: "4/5" }}
-          />
-        </div>
+        <img
+          src="/me.jpg"
+          alt="Matheus Müller"
+          className="w-auto"
+          style={{ maxHeight: "100svh" }}
+        />
       </motion.div>
 
-      {/* ── RIGHT — Copy ── */}
+      {/* ── RIGHT — Conteúdo centralizado ── */}
       <motion.div
         className="flex flex-col items-center justify-center bg-[#EBEAE5]
                    px-12 py-20 text-center md:px-16 md:py-32"
@@ -63,7 +58,7 @@ export default function About() {
         animate="visible"
         viewport={{ once: true, margin: "0px" }}
       >
-        <div style={{ marginRight: "100px" }}>
+        <div style={{ marginRight: "150px" }}>
           {/* Logo — links back to home */}
           <Link href="/" aria-label="Back to home" className="transition-opacity duration-300 hover:opacity-60 inline-block">
             <img
@@ -94,6 +89,11 @@ export default function About() {
           </p>
         </div>
       </motion.div>
+
+      {/* Mobile: foto acima do conteúdo */}
+      <div className="md:hidden flex justify-center bg-[#EBEAE5] pt-12">
+        <img src="/me.jpg" alt="Matheus Müller" />
+      </div>
     </section>
   );
 }
