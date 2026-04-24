@@ -13,7 +13,7 @@ export default function WorksPage() {
     <>
       <Navbar variant="works" />
 
-      <main className="pt-20 md:pt-24">
+      <main className="pt-8 md:pt-24">
         <SelectedWorks />
       </main>
     </>

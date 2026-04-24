@@ -97,7 +97,7 @@ export default function SelectedWorks() {
       id="work"
     >
       <div
-        className="grid grid-cols-1 py-20 md:grid-cols-2 md:py-32"
+        className="grid grid-cols-1 pt-10 pb-20 md:grid-cols-2 md:py-32"
         style={{ paddingLeft: "8vw", paddingRight: "8vw", gap: "6vw" }}
       >
         {/* ────────────────────────────────────────────────
