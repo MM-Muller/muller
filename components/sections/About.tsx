@@ -45,7 +45,7 @@ const PHOTO_REVEAL = {
 
 export default function About() {
   return (
-    <section className="bg-[#EBEAE5]" style={{ minHeight: "100svh" }} aria-label="About">
+    <section className="bg-[#EBEAE5] overflow-hidden" style={{ minHeight: "100svh" }} aria-label="About">
 
       {/* ─────────────────────────────────────────────────────
           MOBILE  (< 768 px)
@@ -117,11 +117,11 @@ export default function About() {
           ───────────────────────────────────────────────────── */}
       <div
         className="hidden md:grid md:grid-cols-2"
-        style={{ minHeight: "100svh" }}
+        style={{ height: "100svh" }}
       >
-        {/* Foto */}
+        {/* Foto — ocupa toda a altura da coluna, sem corte */}
         <motion.div
-          className="relative flex items-center justify-start overflow-hidden"
+          className="relative overflow-hidden"
           variants={FADE_LEFT}
           initial="hidden"
           animate="visible"
@@ -129,8 +129,7 @@ export default function About() {
           <img
             src="/me.jpg"
             alt="Matheus Müller"
-            className="w-auto"
-            style={{ maxHeight: "100svh" }}
+            className="h-full w-full object-contain object-left"
           />
           {/* Gradiente dissolve borda direita */}
           <div
@@ -143,45 +142,44 @@ export default function About() {
           />
         </motion.div>
 
-        {/* Conteúdo */}
+        {/* Conteúdo — alinhado à esquerda, padding proporcional */}
         <motion.div
-          className="flex flex-col items-center justify-center px-12 py-20 text-center md:px-10 md:py-20"
+          className="flex flex-col items-start justify-center px-[8vw] py-[8vh] text-left"
           variants={FADE_RIGHT}
           initial="hidden"
           animate="visible"
         >
-          {/* Tablet: sem offsets · Desktop: offsets originais */}
-          <div className="lg:[margin-right:150px] lg:[margin-top:-70px]">
-            <Link
-              href="/"
-              aria-label="Back to home"
-              className="inline-block transition-opacity duration-300 hover:opacity-60"
-            >
-              <img
-                src="/logo.png"
-                alt="Muller & Co. Engineering"
-                className="w-40 select-none"
-              />
-            </Link>
+          <Link
+            href="/"
+            aria-label="Back to home"
+            className="inline-block transition-opacity duration-300 hover:opacity-60"
+          >
+            <img
+              src="/logo.png"
+              alt="Muller & Co. Engineering"
+              className="w-52 select-none"
+            />
+          </Link>
 
-            <h2
-              className="mt-12 font-display font-normal leading-tight text-[#1A1A1A]
-                         text-4xl md:text-5xl lg:text-6xl"
-            >
-              Engineering<br />as Systemic Art.
-            </h2>
+          <h2
+            className="mt-10 font-display font-normal leading-[0.9] tracking-[-0.02em] text-[#1A1A1A]
+                       text-5xl md:text-6xl lg:text-7xl"
+          >
+            Engineering<br />as Systemic Art.
+          </h2>
 
-            <p
-              className="mt-8 max-w-md font-sans text-sm font-light leading-relaxed
-                         text-[#1A1A1A]/70 md:text-base"
-            >
-              At Muller &amp; Co. Engineering, we don&apos;t just write code — we orchestrate trust.
-              Our philosophy bridges executive logic with technical precision.
-              We architect high-performance systems and systemic automations that
-              eliminate friction, ensure compliance, and accelerate business.
-              Where complexity reigns, we deliver clarity.
-            </p>
-          </div>
+          <div className="mt-8 h-px bg-[#4A3C31]" style={{ width: "48px" }} />
+
+          <p
+            className="mt-6 font-sans font-light leading-relaxed text-[#1A1A1A]/60
+                       text-sm md:text-[15px] max-w-[38ch]"
+          >
+            At Muller &amp; Co. Engineering, we don&apos;t just write code — we orchestrate trust.
+            Our philosophy bridges executive logic with technical precision.
+            We architect high-performance systems and systemic automations that
+            eliminate friction, ensure compliance, and accelerate business.
+            Where complexity reigns, we deliver clarity.
+          </p>
         </motion.div>
       </div>
 
