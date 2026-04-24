@@ -36,7 +36,7 @@ export default function About() {
     >
       {/* ── LEFT — Foto tamanho original ── */}
       <motion.div
-        className="hidden md:flex items-center justify-start bg-[#EBEAE5] overflow-hidden"
+        className="hidden md:flex items-center justify-start bg-[#EBEAE5] overflow-hidden relative"
         variants={FADE_LEFT}
         initial="hidden"
         animate="visible"
@@ -46,6 +46,15 @@ export default function About() {
           alt="Matheus Müller"
           className="w-auto"
           style={{ maxHeight: "100svh" }}
+        />
+        {/* Gradiente dissolve borda direita */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-0 right-0"
+          style={{
+            width: "120px",
+            background: "linear-gradient(to right, transparent 0%, #EBEAE5 100%)",
+          }}
         />
       </motion.div>
 
@@ -58,7 +67,7 @@ export default function About() {
         animate="visible"
         viewport={{ once: true, margin: "0px" }}
       >
-        <div style={{ marginRight: "150px" }}>
+        <div style={{ marginRight: "150px", marginTop: "-70px" }}>
           {/* Logo — links back to home */}
           <Link href="/" aria-label="Back to home" className="transition-opacity duration-300 hover:opacity-60 inline-block">
             <img
