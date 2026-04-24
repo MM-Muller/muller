@@ -146,6 +146,7 @@ export default function SelectedWorks() {
               <motion.div
                 key={p.id}
                 onMouseEnter={() => setActive(i)}
+                onClick={() => setActive(i)}
                 className="cursor-default border-b border-[#1A1A1A]/10 py-7"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -164,6 +165,45 @@ export default function SelectedWorks() {
                 >
                   {p.title}
                 </h2>
+
+                {/* Descrição inline — apenas mobile */}
+                <AnimatePresence>
+                  {active === i && (
+                    <motion.div
+                      className="md:hidden overflow-hidden"
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    >
+                      <p className="mt-5 font-display font-normal leading-[1.6] text-[#1A1A1A]/70 text-lg">
+                        {p.description}
+                      </p>
+                      <p className="mt-4 font-sans text-[10px] uppercase tracking-widest text-[#1A1A1A]/40">
+                        {p.techStack}
+                      </p>
+                      {p.comingSoon ? (
+                        <p className="mt-5 font-sans text-[11px] uppercase tracking-[0.18em] text-[#1A1A1A]/30">
+                          Launching Soon
+                        </p>
+                      ) : p.link ? (
+                        <a
+                          href={p.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group mt-5 inline-flex items-center gap-2 font-sans
+                                     text-[11px] uppercase tracking-[0.18em] text-[#1A1A1A]"
+                        >
+                          <span className="relative">
+                            Discover More
+                            <span className="absolute -bottom-px left-0 h-px w-0 bg-[#1A1A1A] transition-all duration-500 group-hover:w-full" />
+                          </span>
+                          <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                        </a>
+                      ) : null}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             ))}
           </AnimatePresence>
