@@ -97,13 +97,13 @@ export default function Footer() {
               Get in touch
             </p>
             <a
-              href="mailto:dev.mmuller@gmail.com"
+              href="mailto:m@matheusmuller.net"
               className="inline-block border-b border-[#1A1A1A]/30 pb-1
                          font-sans text-base font-light text-[#1A1A1A]
                          transition-all duration-300 hover:border-[#1A1A1A]/60
                          hover:text-[#4A3C31] md:text-lg"
             >
-              dev.mmuller@gmail.com
+              m@matheusmuller.net
             </a>
           </div>
         </motion.div>
