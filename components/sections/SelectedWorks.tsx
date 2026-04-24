@@ -11,13 +11,14 @@ type Project = {
   description: string;
   techStack: string;
   comingSoon?: boolean;
+  link?: string;
 };
 
 const projects: Project[] = [
   {
     id: "01",
     title: "CMMI Compliance & Analytics",
-    category: "RPA & Automations",
+    category: "RPA",
     description:
       "Elimination of manual data collection through an automated training-metrics workflow. The solution generates real-time executive reports for senior leadership, ensures continuous CMMI certification compliance, and delivers actionable intelligence to optimize corporate training programs.",
     techStack: "SHAREPOINT — POWER AUTOMATE — POWER APPS — DATA ANALYTICS",
@@ -25,7 +26,7 @@ const projects: Project[] = [
   {
     id: "02",
     title: "Automated Contract Lifecycle",
-    category: "RPA & Automations",
+    category: "RPA",
     description:
       "Drastic reduction in sales cycle length and operational friction. Through a centralized dashboard, the team simply enters the key variables while the system natively orchestrates the creation, delivery, client approval, and full traceability of enterprise contracts.",
     techStack: "SHAREPOINT — POWER AUTOMATE — AZURE — POWER APPS — REST API",
@@ -33,17 +34,18 @@ const projects: Project[] = [
   {
     id: "03",
     title: "Nexus RPG Platform",
-    category: "SaaS Development",
+    category: "Products",
     description:
       "End-to-end development of an interactive entertainment SaaS product. The platform leverages generative AI and vector databases to craft adaptive narratives and persistent memories, delivering a deeply immersive and highly personalized experience.",
     techStack: "PYTHON / FASTAPI — MONGODB / CHROMADB — LLMS — ANGULAR 16 — DOCKER",
+    link: "https://www.linkedin.com/posts/matheus-mm%C3%BCller_python-fastapi-angular-ugcPost-7391861384210317312-BnlF?utm_source=share&utm_medium=member_desktop&rcm=ACoAAExq2XYBqzL52oW_yEg1zOBhUYWRwv801lU",
   },
   {
     id: "04",
-    title: "WeTogether",
-    category: "SaaS Development",
+    title: "SaaS in Development",
+    category: "SaaS",
     description:
-      "A complete client management platform built to centralize relationships, streamline follow-ups, and give businesses full visibility over their pipeline. Designed for teams that value clarity and speed in every client interaction.",
+      "A client management platform designed to centralize relationships, streamline follow-ups, and give businesses full visibility over their pipeline. Built for teams that value clarity and speed in every client interaction. Currently in development.",
     techStack: "COMING SOON",
     comingSoon: true,
   },
@@ -69,7 +71,7 @@ const PANEL_VARIANTS = {
 };
 
 /* ─── Filter categories ──────────────────────────────── */
-const CATEGORIES = ["All", "RPA & Automations", "SaaS Development", "Sites"] as const;
+const CATEGORIES = ["All", "RPA", "SaaS", "Products"] as const;
 type Category = (typeof CATEGORIES)[number];
 
 /* ─── SelectedWorks ──────────────────────────────────── */
@@ -199,9 +201,11 @@ export default function SelectedWorks() {
                     <p className="mt-10 font-sans text-[11px] uppercase tracking-[0.18em] text-[#1A1A1A]/30">
                       Launching Soon
                     </p>
-                  ) : (
+                  ) : project.link ? (
                     <a
-                      href="#"
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="group mt-10 inline-flex items-center gap-2 font-sans
                                  text-[11px] uppercase tracking-[0.18em] text-[#1A1A1A]"
                     >
@@ -216,7 +220,7 @@ export default function SelectedWorks() {
                         →
                       </span>
                     </a>
-                  )}
+                  ) : null}
                 </motion.div>
               )}
             </AnimatePresence>
