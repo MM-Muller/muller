@@ -1,8 +1,9 @@
 'use client'
 
-import { useRef, useEffect, useCallback } from 'react'
+import { useRef, useEffect, useCallback, useState } from 'react'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
+import { lenisStore } from '@/lib/lenis-store'
 
 const BRUSH_RADIUS = 70
 const DECAY_MS = 700
@@ -27,9 +28,30 @@ const NAV_LINK =
   'font-sans text-[10.5px] font-normal uppercase tracking-[0.16em] whitespace-nowrap ' +
   'text-[#1A1A1A]/65 transition-opacity duration-300 hover:opacity-40'
 
+const OVERLAY_VARIANTS = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] as const } },
+  exit:   { opacity: 0, transition: { duration: 0.25, ease: [0.76, 0, 0.24, 1]        as const } },
+}
+
+const LINK_VARIANTS = {
+  hidden: { opacity: 0, y: 28 },
+  visible: (i: number) => ({
+    opacity: 1, y: 0,
+    transition: { duration: 0.55, delay: i * 0.09, ease: [0.25, 0.46, 0.45, 0.94] as const },
+  }),
+}
+
+const MOBILE_LINKS = [
+  { href: '/works',    label: 'Work'    },
+  { href: '/about',    label: 'About'   },
+  { href: '/#contact', label: 'Contact' },
+]
+
 interface TrailPoint { x: number; y: number; t: number; angle: number }
 
 export default function MaskReveal() {
+  const [menuOpen, setMenuOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const canvas1Ref = useRef<HTMLCanvasElement>(null)
   const canvas2Ref = useRef<HTMLCanvasElement>(null)
@@ -166,47 +188,127 @@ export default function MaskReveal() {
 
   return (
     <section
-      className="relative flex min-h-svh items-end justify-center"
+      className="relative flex min-h-svh items-end justify-center overflow-hidden"
       style={{ backgroundColor: '#FbFbFb' }}
       aria-label="Interactive mask reveal"
     >
 
       {/* ── Nav ──────────────────────────────────────────────────────────────── */}
       <motion.header
-        className="absolute inset-x-0 top-0 z-10 flex items-start justify-between"
-        style={{ padding: '1.5vw 2vw' }}
+        className="absolute inset-x-0 top-0 z-50 flex items-center justify-between"
+        style={{ padding: 'max(18px, 1.5vw) max(20px, 2vw)' }}
         variants={NAV_FADE}
         initial="hidden"
         animate="visible"
         aria-label="Main header"
       >
-        <nav aria-label="Left navigation">
+        {/* Desktop left */}
+        <nav className="hidden md:block" aria-label="Left navigation">
           <Link href="/works" className={NAV_LINK}>Work</Link>
         </nav>
-        <nav className="flex gap-10" aria-label="Right navigation">
+
+        {/* Mobile hamburger */}
+        <button
+          className="md:hidden flex flex-col justify-center gap-[7px] p-2"
+          style={{ marginLeft: 'auto' }}
+          onClick={() => setMenuOpen(v => !v)}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+        >
+          {[0, 1, 2].map(i => (
+            <span
+              key={i}
+              className={`block h-px w-6 transition-all duration-300 ${menuOpen ? 'bg-white' : 'bg-[#1A1A1A]'}`}
+              style={{
+                transform: i === 0 && menuOpen ? 'translateY(10px) rotate(45deg)'
+                         : i === 2 && menuOpen ? 'translateY(-10px) rotate(-45deg)'
+                         : 'none',
+                opacity: i === 1 && menuOpen ? 0 : 1,
+                scale: i === 1 && menuOpen ? '0' : '1',
+              }}
+            />
+          ))}
+        </button>
+
+        {/* Desktop right */}
+        <nav className="hidden md:flex gap-10" aria-label="Right navigation">
           <Link href="/about" className={NAV_LINK}>About</Link>
           <Link href="/#contact" className={NAV_LINK}>Contact</Link>
         </nav>
       </motion.header>
 
+      {/* ── Mobile overlay ───────────────────────────────────────────────────── */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            className="fixed inset-0 z-40 flex flex-col items-center justify-center md:hidden bg-[#1A1A1A]"
+            variants={OVERLAY_VARIANTS}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            aria-label="Mobile menu"
+          >
+            <nav className="flex flex-col items-center gap-10">
+              {MOBILE_LINKS.map(({ href, label }, i) => (
+                <motion.a
+                  key={href}
+                  href={href}
+                  custom={i}
+                  variants={LINK_VARIANTS}
+                  initial="hidden"
+                  animate="visible"
+                  className="font-display font-normal text-white leading-none tracking-[-0.01em]
+                             transition-opacity duration-300 hover:opacity-40"
+                  style={{ fontSize: 'clamp(40px, 12vw, 64px)' }}
+                  onClick={(e) => {
+                    if (href === '/#contact') {
+                      e.preventDefault()
+                      setMenuOpen(false)
+                      setTimeout(() => lenisStore.scrollTo('#contact'), 350)
+                    } else {
+                      setMenuOpen(false)
+                    }
+                  }}
+                >
+                  {label}
+                </motion.a>
+              ))}
+            </nav>
+            <p className="absolute bottom-10 font-sans text-[9px] uppercase tracking-[0.3em] text-white/30">
+              Muller &amp; Co. Engineering
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* ── Image container ──────────────────────────────────────────────────── */}
       <div
         ref={containerRef}
-        className="relative select-none"
+        className="relative select-none w-full md:w-auto"
         style={{ cursor: 'crosshair' }}
         onMouseMove={onMouseMove}
         onMouseLeave={onMouseLeave}
       >
-        <img src="/face1.png" alt="" aria-hidden="true" draggable={false} className="block h-[92svh] w-auto invisible" />
+        {/* Invisible placeholder — sets container dimensions.
+            Mobile: w-full h-auto → container takes natural aspect ratio → no stretching.
+            Desktop: h-[92svh] w-auto → original tall layout. */}
+        <img
+          src="/face1.png"
+          alt=""
+          aria-hidden="true"
+          draggable={false}
+          className="block invisible w-full h-auto md:h-[92svh] md:w-auto"
+        />
         <img ref={face1Ref} src="/face1.png" alt="Matheus Muller" draggable={false} className="hidden" />
         <img ref={face2Ref} src="/face2.png" alt="" aria-hidden="true" draggable={false} className="hidden" />
         <canvas ref={canvas1Ref} className="absolute inset-0 h-full w-full" />
         <canvas ref={canvas2Ref} className="absolute inset-0 h-full w-full" />
       </div>
 
-      {/* ── Bottom left ───────────────────────────────────────────────────────── */}
+      {/* ── Bottom left — desktop only ────────────────────────────────────────── */}
       <motion.div
-        className="absolute bottom-8 left-8 z-10 max-w-[360px]"
+        className="hidden md:block absolute z-10"
+        style={{ bottom: 'max(16px, 2vh)', left: 'max(16px, 2vw)', maxWidth: 'min(360px, 45vw)' }}
         variants={FADE_UP}
         initial="hidden"
         animate="visible"
@@ -222,9 +324,32 @@ export default function MaskReveal() {
         </p>
       </motion.div>
 
-      {/* ── Bottom right ─────────────────────────────────────────────────────── */}
+      {/* ── Name — mobile: centered, desktop: bottom-right ───────────────────── */}
       <motion.div
-        className="absolute bottom-6 right-8 z-10 text-right leading-none"
+        className="md:hidden absolute z-10 left-0 right-0 text-center leading-none"
+        style={{ top: 'max(72px, 10vh)' }}
+        variants={FADE_UP}
+        initial="hidden"
+        animate="visible"
+        custom={0.85}
+      >
+        <p
+          className="font-display font-light tracking-[0.14em] text-[#1A1A1A]/50"
+          style={{ fontSize: 'clamp(1rem, 4vw, 1.2rem)' }}
+        >
+          Matheus
+        </p>
+        <p
+          className="font-display font-semibold tracking-[-0.02em] text-[#1A1A1A] uppercase"
+          style={{ fontSize: 'clamp(2.5rem, 12vw, 3.5rem)', lineHeight: 1 }}
+        >
+          Müller
+        </p>
+      </motion.div>
+
+      <motion.div
+        className="hidden md:block absolute z-10 text-right leading-none"
+        style={{ bottom: 'max(12px, 1.5vh)', right: 'max(16px, 2vw)' }}
         variants={FADE_UP}
         initial="hidden"
         animate="visible"
