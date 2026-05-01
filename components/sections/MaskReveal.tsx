@@ -81,20 +81,27 @@ export default function MaskReveal() {
     if (!ctx1 || !ctx2 || !ctxM || !ctxC) return
 
     const now = performance.now()
-    const w = con.offsetWidth
-    const h = con.offsetHeight
+    const dpr  = window.devicePixelRatio || 1
+    const cssW = con.offsetWidth
+    const cssH = con.offsetHeight
+    if (cssW === 0 || cssH === 0) { rafRef.current = requestAnimationFrame(render); return }
+    const w    = cssW * dpr
+    const h    = cssH * dpr
 
     for (const c of [c1, c2, msk, cir]) {
-      if (c.width !== w || c.height !== h) { c.width = w; c.height = h }
+      if (c.width !== w || c.height !== h) {
+        c.width        = w
+        c.height       = h
+        c.style.width  = cssW + 'px'
+        c.style.height = cssH + 'px'
+      }
     }
 
     trailRef.current = trailRef.current.filter(p => now - p.t < DECAY_MS)
     const trail = trailRef.current
     const hasTrail = trail.length > 0
 
-    // ── Step 1: draw plain ellipses to the circle canvas (zero blur, zero trig) ──
-    // Using setTransform instead of save/translate/rotate/scale/restore
-    // eliminates push/pop stack overhead per circle.
+    // ── Step 1: draw plain ellipses to the circle canvas ─────────────────────────
     ctxC.clearRect(0, 0, w, h)
     if (hasTrail) {
       ctxC.fillStyle = 'black'
@@ -103,8 +110,8 @@ export default function MaskReveal() {
         ctxC.globalAlpha = 1 - age
         const cos = Math.cos(p.angle)
         const sin = Math.sin(p.angle)
-        // setTransform encodes translate(px,py)·rotate(θ)·scale(2,1) in one call
-        ctxC.setTransform(2 * cos, 2 * sin, -sin, cos, p.x, p.y)
+        // Multiply position and scale by dpr so brush maps correctly to physical pixels
+        ctxC.setTransform(2 * cos * dpr, 2 * sin * dpr, -sin * dpr, cos * dpr, p.x * dpr, p.y * dpr)
         ctxC.beginPath()
         ctxC.arc(0, 0, BRUSH_RADIUS, 0, Math.PI * 2)
         ctxC.fill()
@@ -113,11 +120,10 @@ export default function MaskReveal() {
       ctxC.globalAlpha = 1
     }
 
-    // ── Step 2: blur the composite ONCE into the mask canvas ─────────────────────
-    // Previously blur ran once per stamp (N × blur cost). Now it's a single pass.
+    // ── Step 2: blur scaled by dpr so it looks the same on all screens ────────────
     ctxM.clearRect(0, 0, w, h)
     if (hasTrail) {
-      ctxM.filter = `blur(${BLUR_PX}px)`
+      ctxM.filter = `blur(${BLUR_PX * dpr}px)`
       ctxM.drawImage(cir, 0, 0)
       ctxM.filter = 'none'
     }
@@ -281,23 +287,28 @@ export default function MaskReveal() {
         )}
       </AnimatePresence>
 
-      {/* ── Image container ──────────────────────────────────────────────────── */}
+      {/* ── Mobile: imagem direta, sem canvas ───────────────────────────────── */}
+      <img
+        src="/face1.png"
+        alt="Matheus Muller"
+        draggable={false}
+        className="block w-full h-auto md:hidden select-none"
+      />
+
+      {/* ── Desktop: canvas com efeito mask reveal ───────────────────────────── */}
       <div
         ref={containerRef}
-        className="relative select-none w-full md:w-auto"
+        className="relative select-none hidden md:block"
         style={{ cursor: 'crosshair' }}
         onMouseMove={onMouseMove}
         onMouseLeave={onMouseLeave}
       >
-        {/* Invisible placeholder — sets container dimensions.
-            Mobile: w-full h-auto → container takes natural aspect ratio → no stretching.
-            Desktop: h-[92svh] w-auto → original tall layout. */}
         <img
           src="/face1.png"
           alt=""
           aria-hidden="true"
           draggable={false}
-          className="block invisible w-full h-auto md:h-[92svh] md:w-auto"
+          className="block invisible md:h-[92svh] md:w-auto"
         />
         <img ref={face1Ref} src="/face1.png" alt="Matheus Muller" draggable={false} className="hidden" />
         <img ref={face2Ref} src="/face2.png" alt="" aria-hidden="true" draggable={false} className="hidden" />
