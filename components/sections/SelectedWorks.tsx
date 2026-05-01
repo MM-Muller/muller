@@ -42,10 +42,18 @@ const projects: Project[] = [
   },
   {
     id: "04",
+    title: "Zaia AI — Teams",
+    category: "Integrations",
+    description:
+      "Seamless integration of specialized AI intelligence into the collaborative workspace. This solution bridges the Zaia API with Microsoft Teams through a sophisticated Power Platform architecture, providing instant access to Sebrae's expert knowledge base and optimizing institutional communication.",
+    techStack: "ZAIA API — MICROSOFT TEAMS — POWER PLATFORM — REST API",
+  },
+  {
+    id: "05",
     title: "SaaS in Development",
     category: "SaaS",
     description:
-      "A client management platform designed to centralize relationships, streamline follow-ups, and give businesses full visibility over their pipeline. Built for teams that value clarity and speed in every client interaction. Currently in development.",
+      "Elimination of financial unpredictability and data fragmentation through a centralized construction management platform. The solution synchronizes job site execution with back-office budgets in real time, ensures strict cost control, and delivers a dedicated transparency portal for end clients.",
     techStack: "COMING SOON",
     comingSoon: true,
   },
@@ -71,7 +79,7 @@ const PANEL_VARIANTS = {
 };
 
 /* ─── Filter categories ──────────────────────────────── */
-const CATEGORIES = ["All", "RPA", "SaaS", "Products"] as const;
+const CATEGORIES = ["All", "RPA", "Integrations", "SaaS", "Products"] as const;
 type Category = (typeof CATEGORIES)[number];
 
 /* ─── SelectedWorks ──────────────────────────────────── */
@@ -160,7 +168,7 @@ export default function SelectedWorks() {
               >
                 <h2
                   className={`font-display font-normal leading-[1.05] transition-all duration-500
-                    text-4xl md:text-5xl lg:text-[4.5vw]
+                    text-3xl md:text-4xl lg:text-[3.5vw]
                     ${active === i ? "opacity-100" : "opacity-15"}`}
                 >
                   {p.title}
@@ -226,7 +234,7 @@ export default function SelectedWorks() {
                   {/* Description — editorial scale */}
                   <p
                     className="font-display font-normal leading-[1.7] text-[#1A1A1A]/80
-                               text-2xl md:text-3xl lg:text-[2.2vw] max-w-xl text-left"
+                               text-sm md:text-base lg:text-[1.8vw] max-w-xl text-left"
                   >
                     {project.description}
                   </p>

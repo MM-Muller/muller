@@ -65,24 +65,17 @@ export default function About() {
             <Link
               href="/"
               aria-label="Back to home"
-              className="inline-block transition-opacity duration-300 hover:opacity-50"
+              className="inline-block cursor-pointer transition-opacity duration-300 hover:opacity-50"
             >
-              <img src="/logo.png" alt="Muller & Co. Engineering" className="w-24 select-none" />
+              <img src="/logo.png" alt="Muller & Co. Engineering" className="w-24 select-none" style={{ cursor: "pointer" }} />
             </Link>
           </motion.div>
-
-          {/* Acento */}
-          <motion.div
-            variants={RISE}
-            className="mt-8 h-px bg-[#4A3C31]"
-            style={{ width: "32px" }}
-          />
 
           {/* Título */}
           <motion.h2
             variants={RISE}
-            className="mt-8 font-display font-normal text-[#1A1A1A] leading-[0.9] tracking-[-0.02em]"
-            style={{ fontSize: "clamp(38px, 11vw, 56px)" }}
+            className="font-display font-normal text-[#1A1A1A] leading-[0.9] tracking-[-0.02em]"
+            style={{ fontSize: "clamp(38px, 11vw, 56px)", marginTop: "10px" }}
           >
             Engineering<br />
             <em>as Systemic</em><br />
@@ -92,7 +85,8 @@ export default function About() {
           {/* Corpo */}
           <motion.p
             variants={RISE}
-            className="mt-7 font-sans text-[13px] font-light leading-[1.85] text-[#1A1A1A]/55 max-w-[30ch]"
+            className="font-sans text-[13px] font-light leading-[1.85] text-[#1A1A1A]/55 max-w-[30ch]"
+            style={{ marginTop: "52px" }}
           >
             At Muller &amp; Co. Engineering, we don&apos;t just write code — we orchestrate
             trust. Our philosophy bridges executive logic with technical precision.
@@ -103,83 +97,79 @@ export default function About() {
         {/* Foto full-width embaixo */}
         <motion.div variants={PHOTO_REVEAL} className="w-full overflow-hidden">
           <img
-            src="/me.jpg"
+            src="/hero.png"
             alt="Matheus Müller"
-            className="w-full object-cover"
-            style={{ aspectRatio: "4 / 3", objectPosition: "center 40%" }}
+            className="w-full object-cover object-center"
+            style={{ aspectRatio: "4 / 3" }}
           />
         </motion.div>
       </motion.div>
 
       {/* ─────────────────────────────────────────────────────
           TABLET + DESKTOP  (768 px +)
-          Grid 2 colunas: foto esquerda · conteúdo direita
+          Grid 2 colunas: conteúdo esquerda · foto direita
           ───────────────────────────────────────────────────── */}
       <div
-        className="hidden md:grid md:grid-cols-2"
-        style={{ height: "100svh" }}
+        className="hidden md:grid"
+        style={{ height: "100svh", gridTemplateColumns: "30% 70%" }}
       >
-        {/* Foto — ocupa toda a altura da coluna, sem corte */}
+        {/* Conteúdo — centralizado na coluna esquerda */}
         <motion.div
-          className="relative overflow-hidden"
-          variants={FADE_LEFT}
+          className="flex flex-col items-center justify-center px-[8vw] py-[8vh] text-center"
+          variants={STAGGER}
           initial="hidden"
           animate="visible"
         >
-          <img
-            src="/me.jpg"
-            alt="Matheus Müller"
-            className="h-full w-full object-contain object-left"
-          />
-          {/* Gradiente dissolve borda direita */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 right-0"
-            style={{
-              width: "120px",
-              background: "linear-gradient(to right, transparent 0%, #EBEAE5 100%)",
-            }}
-          />
-        </motion.div>
+          <motion.div variants={RISE}>
+            <Link
+              href="/"
+              aria-label="Back to home"
+              className="inline-block cursor-pointer transition-opacity duration-300 hover:opacity-60"
+            >
+              <img
+                src="/logo.png"
+                alt="Muller & Co. Engineering"
+                className="w-52 select-none"
+                style={{ cursor: "pointer" }}
+              />
+            </Link>
+          </motion.div>
 
-        {/* Conteúdo — alinhado à esquerda, padding proporcional */}
-        <motion.div
-          className="flex flex-col items-start justify-center px-[8vw] py-[8vh] text-left"
-          variants={FADE_RIGHT}
-          initial="hidden"
-          animate="visible"
-        >
-          <Link
-            href="/"
-            aria-label="Back to home"
-            className="inline-block transition-opacity duration-300 hover:opacity-60"
-          >
-            <img
-              src="/logo.png"
-              alt="Muller & Co. Engineering"
-              className="w-52 select-none"
-            />
-          </Link>
-
-          <h2
-            className="mt-10 font-display font-normal leading-[0.9] tracking-[-0.02em] text-[#1A1A1A]
+          <motion.h2
+            variants={RISE}
+            className="font-display font-normal leading-[0.9] tracking-[-0.02em] text-[#1A1A1A]
                        text-5xl md:text-6xl lg:text-7xl"
+            style={{ marginTop: "-28px" }}
           >
             Engineering<br />as Systemic Art.
-          </h2>
+          </motion.h2>
 
-          <div className="mt-8 h-px bg-[#4A3C31]" style={{ width: "48px" }} />
-
-          <p
-            className="mt-6 font-sans font-light leading-relaxed text-[#1A1A1A]/60
+          <motion.p
+            variants={RISE}
+            className="font-sans font-light leading-relaxed text-[#1A1A1A]/60
                        text-sm md:text-[15px] max-w-[38ch]"
+            style={{ marginTop: "36px" }}
           >
             At Muller &amp; Co. Engineering, we don&apos;t just write code — we orchestrate trust.
             Our philosophy bridges executive logic with technical precision.
             We architect high-performance systems and systemic automations that
             eliminate friction, ensure compliance, and accelerate business.
             Where complexity reigns, we deliver clarity.
-          </p>
+          </motion.p>
+        </motion.div>
+
+        {/* Foto — hero.png, ocupa toda a altura da coluna */}
+        <motion.div
+          className="relative overflow-hidden"
+          variants={FADE_RIGHT}
+          initial="hidden"
+          animate="visible"
+        >
+          <img
+            src="/hero.png"
+            alt="Matheus Müller"
+            className="h-full w-full object-cover object-center"
+          />
         </motion.div>
       </div>
 

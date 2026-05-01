@@ -13,10 +13,19 @@ export default function ScrollOnMount() {
     const hash = lenisStore.consumePending();
     if (!hash) return;
 
-    // rAF ensures the page has painted at least one frame before scrolling
-    requestAnimationFrame(() => {
-      lenisStore.scrollTo(hash);
-    });
+    // Lenis initializes in its own useEffect — poll until it's ready
+    let attempts = 0;
+    const interval = setInterval(() => {
+      attempts++;
+      if (lenisStore.isReady()) {
+        clearInterval(interval);
+        lenisStore.scrollTo(hash);
+      } else if (attempts > 20) {
+        clearInterval(interval);
+      }
+    }, 50);
+
+    return () => clearInterval(interval);
   }, []);
 
   return null;

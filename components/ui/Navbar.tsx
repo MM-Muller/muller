@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { lenisStore } from "@/lib/lenis-store";
 
@@ -50,17 +49,15 @@ type Variant = "light" | "dark" | "works" | "about";
 
 /* ─── Smooth anchor helper ───────────────────────────── */
 function useAnchorClick() {
-  const router = useRouter();
   return function handleAnchor(e: React.MouseEvent, href: string, onAfter?: () => void) {
     if (!href.includes("#")) return;
     e.preventDefault();
     const isCrossPage = href.startsWith("/#");
-    const hash = isCrossPage ? "#" + href.split("/#")[1] : href;
     if (isCrossPage && window.location.pathname !== "/") {
-      lenisStore.setPending(hash);
-      router.push("/");
       onAfter?.();
+      window.location.href = href;
     } else {
+      const hash = isCrossPage ? "#" + href.split("/#")[1] : href;
       lenisStore.scrollTo(hash);
       onAfter?.();
     }

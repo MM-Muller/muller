@@ -6,6 +6,7 @@ let _pendingHash: string | null = null;
 export const lenisStore = {
   set(l: Lenis)  { _lenis = l; },
   clear()        { _lenis = null; },
+  isReady()      { return _lenis !== null; },
 
   scrollTo(target: string, duration = 1.6) {
     _lenis?.scrollTo(target, { duration });

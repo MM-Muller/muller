@@ -64,7 +64,13 @@ html.lenis body {
   color: #EBEAE5;
 }
 
-/* ─── Cursor: system default ─── */
+/* ─── Cursor: system default, pointer restored for interactive elements ─── */
 * {
   cursor: auto;
+}
+
+a, button, label, select,
+[role="button"], [role="link"], [role="menuitem"],
+[tabindex]:not([tabindex="-1"]) {
+  cursor: pointer;
 }
