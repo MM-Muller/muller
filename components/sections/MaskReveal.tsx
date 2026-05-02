@@ -31,7 +31,7 @@ const NAV_LINK =
 const OVERLAY_VARIANTS = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] as const } },
-  exit:   { opacity: 0, transition: { duration: 0.25, ease: [0.76, 0, 0.24, 1]        as const } },
+  exit: { opacity: 0, transition: { duration: 0.25, ease: [0.76, 0, 0.24, 1] as const } },
 }
 
 const LINK_VARIANTS = {
@@ -43,8 +43,8 @@ const LINK_VARIANTS = {
 }
 
 const MOBILE_LINKS = [
-  { href: '/works',    label: 'Work'    },
-  { href: '/about',    label: 'About'   },
+  { href: '/works', label: 'Work' },
+  { href: '/about', label: 'About' },
   { href: '/#contact', label: 'Contact' },
 ]
 
@@ -81,18 +81,18 @@ export default function MaskReveal() {
     if (!ctx1 || !ctx2 || !ctxM || !ctxC) return
 
     const now = performance.now()
-    const dpr  = window.devicePixelRatio || 1
+    const dpr = window.devicePixelRatio || 1
     const cssW = con.offsetWidth
     const cssH = con.offsetHeight
     if (cssW === 0 || cssH === 0) { rafRef.current = requestAnimationFrame(render); return }
-    const w    = cssW * dpr
-    const h    = cssH * dpr
+    const w = cssW * dpr
+    const h = cssH * dpr
 
     for (const c of [c1, c2, msk, cir]) {
       if (c.width !== w || c.height !== h) {
-        c.width        = w
-        c.height       = h
-        c.style.width  = cssW + 'px'
+        c.width = w
+        c.height = h
+        c.style.width = cssW + 'px'
         c.style.height = cssH + 'px'
       }
     }
@@ -227,8 +227,8 @@ export default function MaskReveal() {
               className={`block h-px w-6 transition-all duration-300 ${menuOpen ? 'bg-white' : 'bg-[#1A1A1A]'}`}
               style={{
                 transform: i === 0 && menuOpen ? 'translateY(10px) rotate(45deg)'
-                         : i === 2 && menuOpen ? 'translateY(-10px) rotate(-45deg)'
-                         : 'none',
+                  : i === 2 && menuOpen ? 'translateY(-10px) rotate(-45deg)'
+                    : 'none',
                 opacity: i === 1 && menuOpen ? 0 : 1,
                 scale: i === 1 && menuOpen ? '0' : '1',
               }}
@@ -287,13 +287,16 @@ export default function MaskReveal() {
         )}
       </AnimatePresence>
 
-      {/* ── Mobile: imagem direta, sem canvas ───────────────────────────────── */}
-      <img
-        src="/face1.png"
-        alt="Matheus Muller"
-        draggable={false}
-        className="block w-full h-auto md:hidden select-none"
-      />
+      {/* ── Mobile: imagem colada no rodapé, muito ampliada ─────────────────── */}
+      <div className="absolute inset-x-0 bottom-0 md:hidden">
+        <img
+          src="/face1.png"
+          alt="Matheus Muller"
+          draggable={false}
+          className="w-full h-auto select-none"
+          style={{ transform: 'scale(1.8)', transformOrigin: 'bottom center' }}
+        />
+      </div>
 
       {/* ── Desktop: canvas com efeito mask reveal ───────────────────────────── */}
       <div
@@ -335,10 +338,10 @@ export default function MaskReveal() {
         </p>
       </motion.div>
 
-      {/* ── Name — mobile: centered, desktop: bottom-right ───────────────────── */}
+      {/* ── Name — mobile: topo esquerda ─────────────────────────────────────── */}
       <motion.div
-        className="md:hidden absolute z-10 left-0 right-0 text-center leading-none"
-        style={{ top: 'max(72px, 10vh)' }}
+        className="md:hidden absolute z-10 leading-none"
+        style={{ top: 'max(24px, 4vh)', left: '28px' }}
         variants={FADE_UP}
         initial="hidden"
         animate="visible"
