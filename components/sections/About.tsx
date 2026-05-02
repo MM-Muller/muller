@@ -49,60 +49,81 @@ export default function About() {
 
       {/* ─────────────────────────────────────────────────────
           MOBILE  (< 768 px)
-          Stack: conteúdo centralizado → foto embaixo
+          Editorial: masthead → retrato → manchete → texto
           ───────────────────────────────────────────────────── */}
       <motion.div
         className="flex flex-col md:hidden"
-        style={{ minHeight: "100svh" }}
         variants={STAGGER}
         initial="hidden"
         animate="visible"
       >
-        {/* Conteúdo */}
-        <div className="flex flex-1 flex-col items-center justify-center px-8 py-16 text-center">
-          {/* Logo */}
-          <motion.div variants={RISE}>
+        {/* Retrato full-bleed no topo, logo sobreposta ao centro */}
+        <motion.div variants={PHOTO_REVEAL} className="relative w-full overflow-hidden">
+          <img
+            src="/hero.png"
+            alt="Matheus Müller"
+            className="w-full object-cover"
+            style={{ aspectRatio: "3 / 4", objectPosition: "center top" }}
+          />
+          {/* Logo centralizada sobre a imagem */}
+          <motion.div
+            variants={RISE}
+            className="absolute inset-0 flex items-start justify-center z-10 pt-6"
+          >
             <Link
               href="/"
               aria-label="Back to home"
-              className="inline-block cursor-pointer transition-opacity duration-300 hover:opacity-50"
+              className="inline-block transition-opacity duration-300 hover:opacity-60"
             >
-              <img src="/logo.png" alt="Muller & Co. Engineering" className="w-24 select-none" style={{ cursor: "pointer" }} />
+              <img
+                src="/logo.png"
+                alt="Muller & Co. Engineering"
+                className="w-[88px] select-none"
+              />
             </Link>
           </motion.div>
+        </motion.div>
 
-          {/* Título */}
+        {/* Bloco editorial */}
+        <div style={{ padding: "32px 28px 64px" }}>
+
+          {/* Marcador de capítulo */}
+          <motion.p
+            variants={RISE}
+            className="font-sans text-[10px] font-normal uppercase tracking-[0.22em] text-[#1A1A1A]/40"
+          >
+            About
+          </motion.p>
+
+          {/* Manchete — alinhada à esquerda */}
           <motion.h2
             variants={RISE}
             className="font-display font-normal text-[#1A1A1A] leading-[0.9] tracking-[-0.02em]"
-            style={{ fontSize: "clamp(38px, 11vw, 56px)", marginTop: "10px" }}
+            style={{ fontSize: "clamp(44px, 13vw, 60px)", marginTop: "10px" }}
           >
             Engineering<br />
             <em>as Systemic</em><br />
             Art.
           </motion.h2>
 
-          {/* Corpo */}
+          {/* Régua editorial */}
+          <motion.div
+            variants={RISE}
+            style={{ height: "1px", background: "#1A1A1A", opacity: 0.12, marginTop: "28px" }}
+          />
+
+          {/* Corpo — alinhado à esquerda, mais respiro */}
           <motion.p
             variants={RISE}
-            className="font-sans text-[13px] font-light leading-[1.85] text-[#1A1A1A]/55 max-w-[30ch]"
-            style={{ marginTop: "52px" }}
+            className="font-sans text-[12px] font-light leading-[1.75] text-[#1A1A1A]/55"
+            style={{ marginTop: "20px" }}
           >
             At Muller &amp; Co. Engineering, we don&apos;t just write code — we orchestrate
             trust. Our philosophy bridges executive logic with technical precision.
             We architect high-performance systems that eliminate friction and accelerate business.
           </motion.p>
-        </div>
 
-        {/* Foto full-width embaixo */}
-        <motion.div variants={PHOTO_REVEAL} className="w-full overflow-hidden">
-          <img
-            src="/hero.png"
-            alt="Matheus Müller"
-            className="w-full object-cover object-center"
-            style={{ aspectRatio: "4 / 3" }}
-          />
-        </motion.div>
+        </div>
       </motion.div>
 
       {/* ─────────────────────────────────────────────────────

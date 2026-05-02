@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "PowerShell(netstat *)"
+      "PowerShell(netstat *)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\User\\\\Documents\\\\GitHub\\\\muller\" -Recurse -Directory | Where-Object { $_.Name -match 'pages|app|src' } | Select-Object -First 20 | Get-ChildItem -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\User\\\\Documents\\\\GitHub\\\\muller\" -Recurse -Directory -Name | Where-Object { $_ -match '^components|^src' } | Get-Unique)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\User\\\\Documents\\\\GitHub\\\\muller\" -Recurse -Directory | Select-Object -First 20 | ForEach-Object { $_.FullName })"
     ]
   }
 }
